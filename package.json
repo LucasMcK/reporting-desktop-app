@@ -31,11 +31,14 @@
     "@electron-forge/publisher-github": "^7.10.2",
     "@electron/fuses": "^1.8.0",
     "electron": "^39.0.0",
+    "electron-rebuild": "^3.2.9",
     "electron-reload": "^2.0.0-alpha.1"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.3",
     "electron-squirrel-startup": "^1.0.1",
+    "sqlite3": "^5.1.7",
     "update-electron-app": "^3.1.1"
   }
 }

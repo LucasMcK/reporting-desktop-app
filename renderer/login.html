@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="container">
+    <form id="loginForm">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+
+      <!-- Messages -->
+      <p id="message"></p>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p class="bottom-link">
+      Don't have an account? 
+      <a href="#" id="signupLink">Sign up!</a>
+    </p>
+  </div>
+
+  <script src="./login.js"></script>
+</body>
+</html>
