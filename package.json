@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
-    "test": "echo \"Error: no test specified\" && exit 1", 
+    "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "node publish.js"
@@ -30,9 +30,11 @@
     "@electron-forge/plugin-fuses": "^7.10.2",
     "@electron-forge/publisher-github": "^7.10.2",
     "@electron/fuses": "^1.8.0",
-    "electron": "^39.0.0"
+    "electron": "^39.0.0",
+    "electron-reload": "^2.0.0-alpha.1"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "electron-squirrel-startup": "^1.0.1",
     "update-electron-app": "^3.1.1"
   }
