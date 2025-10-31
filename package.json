@@ -1,0 +1,23 @@
+{
+  "name": "reporting-desktop-app",
+  "version": "1.0.0",
+  "description": "Reporting application for Avalon Oil & Gas Ltd.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasMcK/reporting-desktop-app.git"
+  },
+  "author": "LucasMcK",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucasMcK/reporting-desktop-app/issues"
+  },
+  "homepage": "https://github.com/LucasMcK/reporting-desktop-app#readme",
+  "devDependencies": {
+    "electron": "^39.0.0"
+  }
+}
