@@ -1,0 +1,6 @@
+/* ----------------- Dashboard Body ----------------- */
+body.dashboard {
+  display: flex;
+  background-color: var(--color-bg);
+  overflow: hidden;
+}

@@ -1,19 +1,15 @@
-/* ----------------- Dashboard Body ----------------- */
-body.dashboard {
-  display: flex;
-  background-color: var(--color-bg);
-  overflow: hidden;
-}
-
 /* ----------------- Sidebar ----------------- */
 .sidebar {
   width: 220px;
+  height: 100vh;            /* full height of the viewport */
   background-color: var(--color-dark);
   color: var(--color-light);
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
-  position: relative;
+  position: fixed;          /* fixes sidebar on the left */
+  top: 0;
+  left: 0;
   overflow: hidden;
 }
 
@@ -93,9 +89,14 @@ body.dashboard {
 
 /* ----------------- Main Content ----------------- */
 .content {
-  flex: 1;
+  margin-left: 220px;  /* leaves space for sidebar */
   padding: 25px 40px;
   overflow-y: auto;
+  transition: margin-left 0.3s;
+}
+
+.sidebar.collapsed ~ .content {
+  margin-left: 0;
 }
 
 h1 {
@@ -104,20 +105,20 @@ h1 {
 }
 
 /* ----------------- Logout Button ----------------- */
-#logoutBtn {
+.sidebar nav #logoutBtn {
   display: flex;
-  justify-content: center; /* center content inside button */
+  justify-content: center;
   align-items: center;
-  width: 80%;               /* smaller width than full sidebar */
-  margin: 20px auto;        /* center the button horizontally with some vertical spacing */
-  padding: 10px 0;          /* less vertical padding */
+  width: 80%;
+  margin: 20px auto;
+  padding: 10px 0;
   font-size: 14px;
-  background-color: #e74c3c; /* red */
-  color: #fff;
+  background-color: #e74c3c !important; /* force red */
+  color: #fff !important;
   border: none;
-  border-radius: var(--radius);
+  border-radius: 8px; /* fallback if var not defined */
   cursor: pointer;
-  transition: var(--transition);
+  transition: 0.3s;
 }
 
 #logoutBtn:hover {
