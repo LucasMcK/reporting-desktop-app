@@ -4,11 +4,13 @@
   "description": "Reporting application for Avalon Oil & Gas Ltd.",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "node publish.js"
+    "publish": "node publish.js",
+    "dev": "cross-env NODE_ENV=development concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
+    "start": "electron .",
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
@@ -30,9 +32,13 @@
     "@electron-forge/plugin-fuses": "^7.10.2",
     "@electron-forge/publisher-github": "^7.10.2",
     "@electron/fuses": "^1.8.0",
+    "concurrently": "^9.2.1",
+    "cross-env": "^7.0.3",
     "electron": "^39.0.0",
     "electron-rebuild": "^3.2.9",
-    "electron-reload": "^2.0.0-alpha.1"
+    "electron-reload": "^2.0.0-alpha.1",
+    "vite": "^6.4.1",
+    "wait-on": "^8.0.5"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

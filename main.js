@@ -5,6 +5,11 @@ const { db, initDB } = require('./utils/db');
 
 let mainWindow;
 
+// Environment flags
+const isDev = process.env.NODE_ENV === 'development';
+const viteDevServer = process.env.VITE_DEV_SERVER || 'http://localhost:5173';
+
+// Create main window
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 400,
@@ -15,24 +20,27 @@ function createWindow() {
     }
   });
 
-  // Correct path to login.html
-  mainWindow.loadFile(path.join(__dirname, 'renderer', 'login.html'));
-
-  // Open DevTools (optional)
-  // mainWindow.webContents.openDevTools();
+  if (isDev) {
+    mainWindow.loadURL(`${viteDevServer}/renderer/login.html`);
+  } else {
+    mainWindow.loadFile(path.join(__dirname, 'renderer', 'login.html'));
+  }
 }
 
+// Initialize DB and window
 app.whenReady().then(() => {
   initDB();
   createWindow();
 });
 
-// Quit when all windows are closed
+// Quit app when all windows closed
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// Login handler
+// ----------------- IPC Handlers ----------------- //
+
+// Login
 ipcMain.handle('login', async (event, { username, password }) => {
   return new Promise((resolve) => {
     db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
@@ -48,7 +56,7 @@ ipcMain.handle('login', async (event, { username, password }) => {
   });
 });
 
-// Signup handler
+// Signup
 ipcMain.handle('create-user', async (event, { username, password }) => {
   const hash = bcrypt.hashSync(password, 10);
   return new Promise((resolve) => {
@@ -63,9 +71,15 @@ ipcMain.handle('create-user', async (event, { username, password }) => {
   });
 });
 
+// Navigation
 ipcMain.on('navigate', (event, page) => {
-  if (mainWindow) {
-    mainWindow.loadFile(path.join(__dirname, 'renderer', page));
+  if (!mainWindow) return;
+
+  if (isDev) {
+    // In dev, point to Vite dev server URL
+    mainWindow.loadURL(`${viteDevServer}/renderer/${page}`);
+  } else {
+    // In production, load the built HTML file
+    mainWindow.loadFile(path.join(__dirname, 'dist', page));
   }
 });
-

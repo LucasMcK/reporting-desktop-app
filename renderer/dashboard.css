@@ -1,0 +1,126 @@
+/* ----------------- Dashboard Body ----------------- */
+body.dashboard {
+  display: flex;
+  background-color: var(--color-bg);
+  overflow: hidden;
+}
+
+/* ----------------- Sidebar ----------------- */
+.sidebar {
+  width: 220px;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 0;
+}
+
+/* Logo */
+.sidebar h2 {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 10px 0 20px 0;
+  transition: opacity 0.3s;
+}
+
+.sidebar.collapsed h2.logo {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Sidebar Links */
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--color-light);
+  padding: 12px 20px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.sidebar nav a.active,
+.sidebar nav a:hover {
+  background-color: var(--color-primary);
+}
+
+/* Icon Images */
+.sidebar nav .icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* Hide text when collapsed */
+.sidebar.collapsed .text {
+  display: none;
+}
+
+/* ----------------- Toggle Button ----------------- */
+.sidebar-toggle {
+  position: absolute;
+  top: 15px;
+  left: 220px; /* always right next to sidebar */
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.3s;
+}
+
+.sidebar.collapsed + .sidebar-toggle {
+  left: 5px; /* moves toggle button when sidebar collapsed */
+}
+
+.sidebar-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* ----------------- Main Content ----------------- */
+.content {
+  flex: 1;
+  padding: 25px 40px;
+  overflow-y: auto;
+}
+
+h1 {
+  color: var(--color-text);
+  margin-bottom: 20px;
+}
+
+/* ----------------- Logout Button ----------------- */
+#logoutBtn {
+  display: flex;
+  justify-content: center; /* center content inside button */
+  align-items: center;
+  width: 80%;               /* smaller width than full sidebar */
+  margin: 20px auto;        /* center the button horizontally with some vertical spacing */
+  padding: 10px 0;          /* less vertical padding */
+  font-size: 14px;
+  background-color: #e74c3c; /* red */
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+#logoutBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}

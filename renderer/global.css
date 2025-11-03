@@ -1,0 +1,55 @@
+:root {
+  --color-primary: #2575fc;
+  --color-secondary: #6a11cb;
+  --color-bg: #f5f6fa;
+  --color-text: #333;
+  --color-light: #fff;
+  --color-dark: #1e1e2f;
+  --radius: 12px;
+  --transition: all 0.3s ease;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  height: 100vh;
+  transition: background 0.5s ease;
+}
+
+/* Headings */
+h1, h2 {
+  color: var(--color-text);
+  font-weight: 700;
+  letter-spacing: 1px;
+  animation: fadeIn 1s;
+}
+
+/* Buttons */
+button {
+  padding: 15px;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  color: var(--color-light);
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

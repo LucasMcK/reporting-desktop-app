@@ -11,21 +11,18 @@ loginForm.addEventListener('submit', async (e) => {
 
   const result = await ipcRenderer.invoke('login', { username, password });
 
-  if (result.success) {
-    message.style.color = 'green';
-    message.innerText = result.message;
+  message.innerText = result.message;
+  message.style.color = result.success ? 'green' : 'red';
 
-    // Redirect to dashboard after short delay
+  if (result.success) {
+    // Redirect to dashboard via main process
     setTimeout(() => {
-      window.location.href = 'dashboard.html';
+      ipcRenderer.send('navigate', 'dashboard.html');
     }, 500);
-  } else {
-    message.style.color = 'red';
-    message.innerText = result.message;
   }
 });
 
-// Navigate to signup page
-signupLink.addEventListener('click', () => {
-  window.location.href = 'signup.html';
+signupLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  ipcRenderer.send('navigate', 'signup.html');
 });

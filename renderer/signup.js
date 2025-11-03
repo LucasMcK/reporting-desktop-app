@@ -10,19 +10,18 @@ signupForm.addEventListener('submit', async (e) => {
   const password = document.getElementById('password').value;
 
   const result = await ipcRenderer.invoke('create-user', { username, password });
-  message.textContent = result.message;
 
+  message.textContent = result.message;
   message.style.color = result.success ? 'green' : 'red';
 
   if (result.success) {
-    // Optionally redirect to login page automatically
+    // Redirect back to login page after short delay
     setTimeout(() => {
       ipcRenderer.send('navigate', 'login.html');
     }, 1000);
   }
 });
 
-// Navigate back to Login page
 loginLink.addEventListener('click', (e) => {
   e.preventDefault();
   ipcRenderer.send('navigate', 'login.html');

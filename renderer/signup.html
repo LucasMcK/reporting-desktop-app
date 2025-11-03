@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Sign Up</title>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./global.css">
+  <link rel="stylesheet" href="./auth.css">
 </head>
-<body>
+<body class="auth">
   <div class="container">
     <form id="signupForm">
       <h2>Sign Up</h2>
       <input type="text" id="username" placeholder="Username" required>
       <input type="password" id="password" placeholder="Password" required>
 
-      <!-- Messages -->
       <p id="message"></p>
 
       <button type="submit">Create Account</button>
@@ -24,6 +24,6 @@
     </p>
   </div>
 
-  <script src="./signup.js"></script>
+  <script type="module" src="./signup.js"></script>
 </body>
 </html>
