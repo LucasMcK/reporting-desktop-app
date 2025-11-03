@@ -1,0 +1,37 @@
+.app-button {
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Primary Button - login/signup */
+.app-button.primary-btn {
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  color: var(--color-light); /* this will be black if you set --color-light: #000 */
+}
+
+.app-button.primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+/* Secondary Button - logout */
+.app-button.secondary-btn {
+  background-color: #e74c3c; /* red */
+  color: #fff;
+  width: 80%;
+  margin: 20px auto;
+  padding: 10px 0;
+}
+
+.app-button.secondary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}

@@ -5,6 +5,7 @@ import uploadIcon from "../assets/icons/upload.png";
 import userIcon from "../assets/icons/user.png";
 import settingsIcon from "../assets/icons/settings.png";
 import logoutIcon from "../assets/icons/logout.png";
+import Button from "../components/Button.jsx";
 import "../styles/sidebar.css";
 
 function Sidebar({ collapsed, onLogout }) {
@@ -32,10 +33,10 @@ function Sidebar({ collapsed, onLogout }) {
           <img className="icon" src={settingsIcon} alt="Settings" />
           <span className="text">Settings</span>
         </a>
-        <button id="logoutBtn" onClick={onLogout}>
+        <Button onClick={onLogout} variant="secondary">
           <img className="icon" src={logoutIcon} alt="Logout" />
           <span className="text">Logout</span>
-        </button>
+        </Button>
       </nav>
     </div>
   );

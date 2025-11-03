@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 const { ipcRenderer } = window.require("electron");
+import Button from "../components/Button.jsx";
 import "../styles/auth.css";
 import "../styles/global.css";
 
@@ -53,7 +54,7 @@ function Signup({ goTo }) {
           required
         />
 
-        <button type="submit">Sign Up</button>
+        <Button type="submit" variant="primary">Sign Up</Button>
 
         {message && <p id="message" style={{ color: messageColor }}>{message}</p>}
 
