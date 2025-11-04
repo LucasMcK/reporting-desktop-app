@@ -20,7 +20,7 @@ function Sidebar({ page, goTo }) {
   return (
     <>
       <div className={`sidebar ${sidebarCollapsed ? "collapsed" : ""}`}>
-        <h2 className="logo">Reporting App</h2>
+        <h3 className="logo">Reporting App</h3>
         <nav>
           <a
             href="#"

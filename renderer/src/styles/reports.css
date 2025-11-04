@@ -43,6 +43,7 @@ body.reports {
   border: 1px solid #ddd;
   border-radius: 12px;
   overflow: hidden;
+  animation: fadeIn 1s ease forwards;
 }
 
 /* Table header */
