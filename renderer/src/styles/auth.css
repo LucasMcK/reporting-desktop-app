@@ -10,6 +10,7 @@ body.auth {
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: fadeIn 1s ease forwards;
 }
 
 form {
@@ -22,7 +23,7 @@ form {
   gap: 20px;
   align-items: center;
   box-shadow: 0px 25px 50px rgba(0, 0, 0, 0.2);
-  animation: slideIn 0.6s forwards;
+  animation: fadeIn 1s ease forwards;
 }
 
 /* Inputs */
@@ -58,6 +59,7 @@ input:focus {
   color: var(--color-light);
   margin-top: 15px;
   text-align: center;
+  animation: fadeIn 1s ease forwards;
 }
 
 .bottom-link a {
@@ -65,6 +67,7 @@ input:focus {
   font-weight: 600;
   text-decoration: underline;
   transition: var(--transition);
+  animation: fadeIn 1s ease forwards;
 }
 
 .bottom-link a:hover {
