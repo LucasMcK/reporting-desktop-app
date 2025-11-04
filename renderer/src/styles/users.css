@@ -1,0 +1,77 @@
+/* ----------------- Users Body ----------------- */
+body.users {
+  display: flex;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ----------------- Users Content ----------------- */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* center horizontally */
+  text-align: center;       /* center text lines */
+  box-sizing: border-box;
+  padding: 20px;
+  transition: all 0.3s ease;
+  min-height: 100vh;
+}
+
+/* Headings and paragraphs */
+.content h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.content p {
+  font-size: 1rem;
+  max-width: 600px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Users table styling */
+.users-table {
+  width: 100%;
+  max-width: 800px;
+  overflow-x: auto;
+  animation: fadeIn 1s;
+}
+
+.users-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.users-table th {
+  background-color: #f4f4f4;
+  font-weight: 600;
+}
+
+.users-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.users-table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* Fade in animation */
+.content h1, .content p, .users-table {
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
