@@ -6,32 +6,51 @@ body.users {
   font-family: 'Inter', sans-serif;
 }
 
+/* ----------------- Users Table ----------------- */
 .content {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 20px;
   box-sizing: border-box;
+  padding: 20px;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
 }
 
 .users-table {
-  width: 100%;
-  max-width: 600px;
-  border-collapse: collapse;
+  width: 80%;
+  border-collapse: separate;       /* so border-radius works */
+  border-spacing: 0;               /* remove gaps */
   margin-top: 20px;
+  border: 1px solid #ddd;          /* table border */
+  border-radius: 12px;             /* rounded edges */
+  overflow: hidden;                /* ensures rounded corners */
 }
 
-.users-table th, .users-table td {
-  border: 1px solid #ccc;
-  padding: 8px 12px;
+.users-table th,
+.users-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;  /* line between rows */
+  border-right: 1px solid #ddd;   /* line between columns */
+}
+
+.users-table th:last-child,
+.users-table td:last-child {
+  border-right: none;              /* remove last column right border */
 }
 
 .users-table th {
-  background-color: #f0f0f0;
+  background-color: #f9f9f9;       /* match previous background color */
+  font-weight: bold;
+  text-align: left;
 }
 
-.users-table tr:nth-child(even) {
-  background-color: #fafafa;
+.users-table tr:last-child td {
+  border-bottom: none;             /* remove bottom border on last row */
+}
+
+.users-table tr:hover {
+  background-color: #f1f1f1;
 }
