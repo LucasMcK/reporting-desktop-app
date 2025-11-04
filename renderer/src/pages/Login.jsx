@@ -23,14 +23,13 @@ function Login({ goTo }) {
     setMessageColor(result.success ? "green" : "red");
 
     if (result.success) {
-      // Instead of loading dashboard.html, switch React page
       goTo("dashboard");
     }
   };
 
   const handleSignupClick = (e) => {
     e.preventDefault();
-    goTo("signup"); // <-- switch to signup component
+    goTo("signup");
   };
 
   return (

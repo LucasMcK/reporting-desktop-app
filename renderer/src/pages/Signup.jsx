@@ -23,14 +23,13 @@ function Signup({ goTo }) {
     setMessageColor(result.success ? "green" : "red");
 
     if (result.success) {
-      // Instead of navigating with Electron, switch React page
       setTimeout(() => goTo("login"), 1000);
     }
   };
 
   const handleLoginClick = (e) => {
     e.preventDefault();
-    goTo("login"); // <-- switch to login component
+    goTo("login");
   };
 
   return (
