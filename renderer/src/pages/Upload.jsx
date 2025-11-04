@@ -7,6 +7,7 @@ function Upload({ page, goTo, username }) { // <-- receive username
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState(""); // notification text
   const [messageType, setMessageType] = useState(""); // "success" or "error"
+  const currentUser = localStorage.getItem("username");
 
   const handleFiles = async (files) => {
     if (!files.length) return;
@@ -22,7 +23,7 @@ function Upload({ page, goTo, username }) { // <-- receive username
         const result = await ipcRenderer.invoke("upload-report", {
           name: file.name,
           data,
-          uploadedBy: username, // <-- pass username
+          uploadedBy: currentUser,
         });
 
         if (!result.success) {

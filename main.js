@@ -15,6 +15,7 @@ const {
 } = require("./utils/db");
 
 let mainWindow;
+let currentUser = null;
 const isDev = process.env.NODE_ENV !== "production";
 const viteDevServer = "http://localhost:5173";
 
@@ -54,11 +55,12 @@ ipcMain.handle("login", async (event, { username, password }) => {
       else if (!row) resolve({ success: false, message: "User not found" });
       else {
         const valid = bcrypt.compareSync(password, row.password);
-        resolve(
-          valid
-            ? { success: true, message: "Login successful" }
-            : { success: false, message: "Incorrect password" }
-        );
+        if (valid) {
+          currentUser = username;
+          resolve({ success: true, message: "Login successful", username });
+        } else {
+          resolve({ success: false, message: "Incorrect password" });
+        }
       }
     });
   });
@@ -90,19 +92,21 @@ ipcMain.handle("get-users", async () => {
 // ----------------- REPORTS -----------------
 
 // Upload a report
-ipcMain.handle("upload-report", async (event, { name, data, uploadedBy }) => {
+ipcMain.handle("upload-report", async (event, { name, data }) => {
   try {
+    const uploadedBy = currentUser || "Unknown";
     const stmt = db.prepare(`
       INSERT INTO reports (name, data, uploaded_at, uploaded_by)
       VALUES (?, ?, CURRENT_TIMESTAMP, ?)
     `);
     stmt.run(name, data, uploadedBy);
-    return { success: true };
+    return { success: true, uploadedBy };
   } catch (err) {
     console.error(err);
     return { success: false, message: err.message };
   }
 });
+
 
 // Get all reports metadata
 ipcMain.handle("get-reports", async () => {
