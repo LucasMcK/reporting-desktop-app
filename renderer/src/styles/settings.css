@@ -1,0 +1,55 @@
+/* ----------------- Settings Body ----------------- */
+body.settings {
+  display: flex;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ----------------- Settings Content ----------------- */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* center horizontally */
+  text-align: center;       /* center text */
+  box-sizing: border-box;
+  padding: 20px;
+  transition: all 0.3s ease;
+  min-height: 100vh;
+}
+
+/* Headings and paragraphs */
+.content h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.content p {
+  font-size: 1rem;
+  max-width: 600px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Settings section styling */
+.settings-section {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fafafa;
+  animation: fadeIn 1s;
+}
+
+/* Fade in animation */
+.content h1, .content p, .settings-section {
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
