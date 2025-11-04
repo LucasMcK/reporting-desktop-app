@@ -116,11 +116,30 @@ ipcMain.handle("get-reports", async () => {
 });
 
 // Download a report
-ipcMain.handle("download-report", async (event, { id, savePath }) => {
+ipcMain.handle('download-report', async (event, { id, name }) => {
   try {
-    const report = await getReportById(id);
-    if (!report) throw new Error("Report not found");
-    fs.writeFileSync(savePath, report.data);
+    const row = await new Promise((resolve, reject) => {
+      db.get('SELECT data FROM reports WHERE id = ?', [id], (err, row) => {
+        if (err) reject(err);
+        else resolve(row);
+      });
+    });
+
+    if (!row) {
+      return { success: false, message: 'Report not found' };
+    }
+
+    const { filePath, canceled } = await dialog.showSaveDialog({
+      defaultPath: name,
+      filters: [{ name: 'Excel Files', extensions: ['xls', 'xlsx'] }]
+    });
+
+    if (canceled || !filePath) {
+      return { success: false, message: 'Save cancelled' };
+    }
+
+    fs.writeFileSync(filePath, row.data);
+
     return { success: true };
   } catch (err) {
     console.error(err);
