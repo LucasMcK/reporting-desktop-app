@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
+import downloadIcon from "../assets/icons/download.png";
+import deleteIcon from "../assets/icons/delete.png";
 import "../styles/reports.css";
 const { ipcRenderer } = window.require("electron");
 
@@ -40,21 +42,42 @@ function Reports({ page, goTo }) {
         <h1>Reports</h1>
         <p>View and manage all reports here.</p>
 
-        <div className="reports-list">
-          {reports.length === 0 ? (
-            <p>No reports available.</p>
-          ) : (
-            <ul>
+        {reports.length === 0 ? (
+          <p>No reports available.</p>
+        ) : (
+          <table className="reports-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Filename</th>
+                <th>Uploaded By</th>
+                <th>Uploaded At</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
               {reports.map((report) => (
-                <li key={report.id}>
-                  {report.name}
-                  <button onClick={() => handleDownload(report.id, report.name)}>Download</button>
-                  <button onClick={() => handleDelete(report.id)}>Delete</button>
-                </li>
+                <tr key={report.id}>
+                  <td>{report.id}</td>
+                  <td>{report.name}</td>
+                  <td>{report.uploaded_by}</td>
+                  <td>{report.uploaded_at}</td>
+                  <td>
+                    <div className="report-actions">
+                      <button onClick={() => handleDownload(report.id, report.name)}>
+                        <img src={downloadIcon} alt="Download" className="icon-btn" />
+                      </button>
+
+                      <button onClick={() => handleDelete(report.id)}>
+                        <img src={deleteIcon} alt="Delete" className="icon-btn" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
               ))}
-            </ul>
-          )}
-        </div>
+            </tbody>
+          </table>
+        )}
       </div>
     </>
   );
