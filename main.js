@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const bcrypt = require("bcryptjs");
-const { db, initDB } = require("./utils/db");
+const { db, initDB, getAllUsers } = require("./utils/db");
 
 let mainWindow;
 const isDev = process.env.NODE_ENV !== 'production';
@@ -24,15 +24,6 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, "renderer", "dist", "index.html"));
   }
 }
-
-app.whenReady().then(() => {
-  initDB();
-  createWindow();
-});
-
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
-});
 
 // ----------------- IPC -----------------
 ipcMain.handle("login", async (event, { username, password }) => {
@@ -64,4 +55,28 @@ ipcMain.handle("create-user", async (event, { username, password }) => {
       }
     );
   });
+});
+
+ipcMain.handle("get-users", async () => {
+  try {
+    const users = await getAllUsers();
+    return users;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+});
+
+// ----------------- App -----------------
+app.whenReady().then(async () => {
+  try {
+    await initDB(); // ensure DB is ready
+    createWindow();  // then create the window
+  } catch (err) {
+    console.error("DB init failed:", err);
+  }
+});
+
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") app.quit();
 });

@@ -11,13 +11,17 @@ const db = new sqlite3.Database(dbPath, (err) => {
   }
 });
 
-// Create users table if not exists
 function initDB() {
-  db.run(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE,
-    password TEXT
-  )`);
+  return new Promise((resolve, reject) => {
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT UNIQUE,
+      password TEXT
+    )`, (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
 }
 
 function addUser(username, hashedPassword) {
@@ -33,13 +37,13 @@ function addUser(username, hashedPassword) {
   });
 }
 
-function getUserByUsername(username) {
+function getAllUsers() {
   return new Promise((resolve, reject) => {
-    db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
+    db.all('SELECT id, username FROM users', (err, rows) => {
       if (err) reject(err);
-      else resolve(row);
+      else resolve(rows);
     });
   });
 }
 
-module.exports = { addUser, getUserByUsername, db, initDB };
+module.exports = { addUser, db, initDB, getAllUsers };
