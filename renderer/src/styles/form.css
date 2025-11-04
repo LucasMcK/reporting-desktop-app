@@ -1,0 +1,105 @@
+/* Container */
+.form-container {
+    max-width: 600px;
+    font-family: Arial, sans-serif;
+    padding: 1rem;
+    animation: fadeIn 1s ease forwards;
+}
+
+/* Heading */
+.form-container h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-container p {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+    animation: fadeIn 1s ease forwards;
+}
+
+/* Form styling */
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border: 2px solid #01426a;
+    border-radius: 12px;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 1s ease forwards;
+}
+
+/* Input and textarea rows */
+.form-container form div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-container label {
+    font-weight: 500;
+    color: #01426a;
+}
+
+/* Inputs & Textarea */
+.form-container input,
+.form-container textarea {
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-container input:focus,
+.form-container textarea:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Textarea */
+.form-container textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Submit button */
+.form-container button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    animation: fadeIn 1s ease forwards;
+}
+
+.form-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Disabled inputs */
+.form-container input:disabled,
+.form-container textarea:disabled {
+    background-color: #f0f0f0;
+    color: #888;
+    cursor: not-allowed;
+    border: 1px solid #ccc;
+}
+
+/* Optional: form sections */
+.form-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background-color: #fafafa;
+}

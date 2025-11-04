@@ -6,6 +6,7 @@ import Reports from "./pages/Reports";
 import Upload from "./pages/Upload";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
+import Form from "./pages/Form";
 
 function App() {
   const [page, setPage] = useState("login");
@@ -21,6 +22,7 @@ function App() {
       {page === "upload" && <Upload page={page} goTo={goTo}/>}
       {page === "users" && <Users page={page} goTo={goTo}/>}
       {page === "settings" && <Settings page={page} goTo={goTo}/>}
+      {page === "form" && <Form page={page} goTo={goTo}/>}
     </>
   );
 }

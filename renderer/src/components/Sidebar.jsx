@@ -5,6 +5,7 @@ import uploadIcon from "../assets/icons/upload.png";
 import userIcon from "../assets/icons/user.png";
 import settingsIcon from "../assets/icons/settings.png";
 import logoutIcon from "../assets/icons/logout.png";
+import formIcon from "../assets/icons/form.png"
 import Button from "../components/Button.jsx";
 import "../styles/sidebar.css";
 
@@ -37,7 +38,7 @@ function Sidebar({ page, goTo }) {
             className={page === "reports" ? "active" : ""}
           >
             <img className="icon" src={reportIcon} alt="Reports" />
-            <span className="text">Reports</span>
+            <span className="text">View Reports</span>
           </a>
 
           <a
@@ -46,7 +47,7 @@ function Sidebar({ page, goTo }) {
             className={page === "upload" ? "active" : ""}
           >
             <img className="icon" src={uploadIcon} alt="Upload" />
-            <span className="text">Upload</span>
+            <span className="text">Upload Reports</span>
           </a>
 
           <a
@@ -55,7 +56,16 @@ function Sidebar({ page, goTo }) {
             className={page === "users" ? "active" : ""}
           >
             <img className="icon" src={userIcon} alt="Users" />
-            <span className="text">Users</span>
+            <span className="text">View Users</span>
+          </a>
+
+          <a
+            href="#"
+            onClick={e => { e.preventDefault(); goTo("form"); }}
+            className={page === "form" ? "active" : ""}
+          >
+            <img className="icon" src={formIcon} alt="Settings" />
+            <span className="text">Submit Form</span>
           </a>
 
           <a

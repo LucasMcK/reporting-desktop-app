@@ -6,11 +6,8 @@ const {
   db,
   initDB,
   getAllUsers,
-  addUser,
   initReportsTable,
-  addReport,
   getAllReports,
-  getReportById,
   deleteReport,
 } = require("./utils/db");
 
@@ -39,7 +36,7 @@ function createWindow() {
 
 app.whenReady().then(async () => {
   await initDB();
-  await initReportsTable(); // initialize reports table
+  await initReportsTable();
   createWindow();
 });
 
