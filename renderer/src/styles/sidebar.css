@@ -3,7 +3,7 @@
   width: 220px;
   height: 100vh;            /* full height of the viewport */
   background-color: var(--color-dark);
-  color: var(--color-light);
+  color: #fff;              /* force text to white */
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
@@ -14,7 +14,7 @@
 }
 
 .sidebar.collapsed {
-  width: 0;
+  width: 0;                 /* fully collapse sidebar */
 }
 
 /* Logo */
@@ -23,6 +23,7 @@
   font-size: 1.2rem;
   margin: 10px 0 20px 0;
   transition: opacity 0.3s;
+  color: #fff;
 }
 
 .sidebar.collapsed h2.logo {
@@ -35,7 +36,7 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: var(--color-light);
+  color: #fff;
   padding: 12px 20px;
   transition: background 0.2s;
   white-space: nowrap;
@@ -53,6 +54,7 @@
   margin-right: 10px;
   vertical-align: middle;
   flex-shrink: 0;
+  filter: brightness(0) invert(1); /* makes icons white */
 }
 
 /* Hide text when collapsed */
@@ -64,7 +66,7 @@
 .sidebar-toggle {
   position: absolute;
   top: 15px;
-  left: 220px; /* always right next to sidebar */
+  left: calc(220px + 10px); /* consistent spacing from sidebar edge */
   width: 40px;
   height: 40px;
   font-size: 20px;
@@ -80,7 +82,7 @@
 }
 
 .sidebar.collapsed + .sidebar-toggle {
-  left: 5px; /* moves toggle button when sidebar collapsed */
+  left: 10px; /* same consistent spacing when collapsed */
 }
 
 .sidebar-toggle:hover {
@@ -116,7 +118,7 @@ h1 {
   background-color: #e74c3c !important; /* force red */
   color: #fff !important;
   border: none;
-  border-radius: 8px; /* fallback if var not defined */
+  border-radius: 8px;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -124,4 +126,13 @@ h1 {
 #logoutBtn:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+/* ----------------- General White Text & Icons ----------------- */
+.sidebar,
+.sidebar nav a,
+.sidebar nav a .text,
+.sidebar nav a .icon,
+.sidebar button {
+  color: #fff !important;
 }
