@@ -1,56 +1,49 @@
-body.users {
-  display: flex;
-  margin: 0;
-  height: 100vh;
-  overflow: hidden;
-  font-family: 'Inter', sans-serif;
-}
-
-/* ----------------- Users Table ----------------- */
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  box-sizing: border-box;
-  padding: 20px;
-  min-height: 100vh;
-  font-family: 'Inter', sans-serif;
-}
-
 .users-table {
-  width: 80%;
-  border-collapse: separate;       /* so border-radius works */
-  border-spacing: 0;               /* remove gaps */
+  width: 100%;
+  min-width: 600px;
+  max-width: 1200px;
+  border-collapse: separate;    /* keep separate for rounded corners */
+  border-spacing: 0;            
   margin-top: 20px;
-  border: 1px solid #ddd;          /* table border */
-  border-radius: 12px;             /* rounded edges */
-  overflow: hidden;                /* ensures rounded corners */
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.users-table th,
-.users-table td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #ddd;  /* line between rows */
-  border-right: 1px solid #ddd;   /* line between columns */
+/* Table header */
+.users-table thead th {
+  padding: 12px 20px;
+  text-align: center;
+  background-color: #f5f5f5;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd; /* line between header and body */
+  border-right: 1px solid #ddd;  /* line between columns */
 }
 
-.users-table th:last-child,
-.users-table td:last-child {
-  border-right: none;              /* remove last column right border */
+/* Remove right border on last header cell */
+.users-table thead th:last-child {
+  border-right: none;
 }
 
-.users-table th {
-  background-color: #f9f9f9;       /* match previous background color */
-  font-weight: bold;
-  text-align: left;
+/* Table body */
+.users-table tbody td {
+  padding: 12px 20px;
+  text-align: center;
+  border-bottom: 1px solid #ddd; /* line between rows */
+  border-right: 1px solid #ddd;  /* line between columns */
 }
 
-.users-table tr:last-child td {
-  border-bottom: none;             /* remove bottom border on last row */
+/* Remove right border on last column of each row */
+.users-table tbody td:last-child {
+  border-right: none;
 }
 
-.users-table tr:hover {
-  background-color: #f1f1f1;
+/* Remove bottom border for last row */
+.users-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Optional striped rows */
+.users-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
 }
