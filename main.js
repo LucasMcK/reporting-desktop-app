@@ -1,10 +1,21 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const bcrypt = require("bcryptjs");
-const { db, initDB, getAllUsers } = require("./utils/db");
+const fs = require("fs");
+const {
+  db,
+  initDB,
+  getAllUsers,
+  addUser,
+  initReportsTable,
+  addReport,
+  getAllReports,
+  getReportById,
+  deleteReport,
+} = require("./utils/db");
 
 let mainWindow;
-const isDev = process.env.NODE_ENV !== 'production';
+const isDev = process.env.NODE_ENV !== "production";
 const viteDevServer = "http://localhost:5173";
 
 function createWindow() {
@@ -25,7 +36,17 @@ function createWindow() {
   }
 }
 
-// ----------------- IPC -----------------
+app.whenReady().then(async () => {
+  await initDB();
+  await initReportsTable(); // initialize reports table
+  createWindow();
+});
+
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") app.quit();
+});
+
+// ----------------- USERS -----------------
 ipcMain.handle("login", async (event, { username, password }) => {
   return new Promise((resolve) => {
     db.get("SELECT * FROM users WHERE username = ?", [username], (err, row) => {
@@ -59,24 +80,61 @@ ipcMain.handle("create-user", async (event, { username, password }) => {
 
 ipcMain.handle("get-users", async () => {
   try {
-    const users = await getAllUsers();
-    return users;
+    return await getAllUsers();
   } catch (err) {
     console.error(err);
     return [];
   }
 });
 
-// ----------------- App -----------------
-app.whenReady().then(async () => {
+// ----------------- REPORTS -----------------
+
+// Upload a report
+ipcMain.handle("upload-report", async (event, { name, data, uploadedBy }) => {
   try {
-    await initDB(); // ensure DB is ready
-    createWindow();  // then create the window
+    const stmt = db.prepare(`
+      INSERT INTO reports (name, data, uploaded_at, uploaded_by)
+      VALUES (?, ?, CURRENT_TIMESTAMP, ?)
+    `);
+    stmt.run(name, data, uploadedBy);
+    return { success: true };
   } catch (err) {
-    console.error("DB init failed:", err);
+    console.error(err);
+    return { success: false, message: err.message };
   }
 });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+// Get all reports metadata
+ipcMain.handle("get-reports", async () => {
+  try {
+    const reports = await getAllReports();
+    return reports;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+});
+
+// Download a report
+ipcMain.handle("download-report", async (event, { id, savePath }) => {
+  try {
+    const report = await getReportById(id);
+    if (!report) throw new Error("Report not found");
+    fs.writeFileSync(savePath, report.data);
+    return { success: true };
+  } catch (err) {
+    console.error(err);
+    return { success: false, message: err.message };
+  }
+});
+
+// Delete a report
+ipcMain.handle("delete-report", async (event, id) => {
+  try {
+    await deleteReport(id);
+    return { success: true };
+  } catch (err) {
+    console.error(err);
+    return { success: false, message: err.message };
+  }
 });
