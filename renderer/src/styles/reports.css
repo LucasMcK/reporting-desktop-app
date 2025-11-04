@@ -1,0 +1,55 @@
+/* ----------------- Reports Body ----------------- */
+body.reports {
+  display: flex;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ----------------- Reports Content ----------------- */
+.content {
+  flex: 1;                     /* fills remaining space next to sidebar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;          /* horizontally center text */
+  text-align: center;           /* center lines */
+  box-sizing: border-box;
+  padding: 20px;
+  transition: all 0.3s ease;   /* smooth resizing when sidebar collapses */
+  min-height: 100vh;
+}
+
+/* Headings and paragraphs */
+.content h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.content p {
+  font-size: 1rem;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+/* Reports list */
+.reports-list ul {
+  list-style: none;   /* remove bullets */
+  padding: 0;
+  margin-top: 20px;
+}
+
+.reports-list li {
+  margin: 5px 0;
+  animation: fadeIn 0.8s;
+}
+
+/* Fade in animation */
+.content h1, .content p, .reports-list li {
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -14,7 +14,7 @@ function App() {
       {page === "login" && <Login goTo={goTo} />}
       {page === "signup" && <Signup goTo={goTo} />}
       {page === "dashboard" && <Dashboard page={page} goTo={goTo}/>}
-      {page === "reports" && <Reports />}
+      {page === "reports" && <Reports page={page} goTo={goTo}/>}
     </>
   );
 }
