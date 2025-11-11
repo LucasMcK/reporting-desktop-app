@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-const { ipcRenderer } = window.require("electron");
 import Button from "../components/Button.jsx";
 import "../styles/auth.css";
 import "../styles/global.css";
@@ -17,14 +16,16 @@ function Login({ goTo }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await ipcRenderer.invoke("login", { username, password });
+    if (!window.versions?.login) {
+      console.error("login is undefined!");
+      return;
+    }
 
+    const result = await window.versions.login(username, password);
     setMessage(result.message);
     setMessageColor(result.success ? "green" : "red");
 
-    if (result.success) {
-      goTo("dashboard");
-    }
+    if (result.success) goTo("dashboard");
   };
 
   const handleSignupClick = (e) => {

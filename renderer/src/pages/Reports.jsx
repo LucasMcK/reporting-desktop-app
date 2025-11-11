@@ -3,36 +3,40 @@ import Sidebar from "../components/Sidebar";
 import downloadIcon from "../assets/icons/download.png";
 import deleteIcon from "../assets/icons/delete.png";
 import "../styles/reports.css";
-const { ipcRenderer } = window.require("electron");
 
 function Reports({ page, goTo }) {
   const [reports, setReports] = useState([]);
-
-  // Fetch reports from DB
-  const fetchReports = async () => {
-    const data = await ipcRenderer.invoke("get-reports");
-    setReports(data || []);
-  };
 
   useEffect(() => {
     fetchReports();
   }, []);
 
+
+  // Fetch reports
+  const fetchReports = async () => {
+    if (!window.versions?.getReports) {
+      console.error("getReports is undefined!");
+      return;
+    }
+    const data = await window.versions.getReports();
+    setReports(data || []);
+  };
+
   // Download report
   const handleDownload = async (id, name) => {
-    const result = await ipcRenderer.invoke("download-report", { id, name });
+    if (!window.versions?.downloadReport) return console.error("downloadReport is undefined!");
+    const result = await window.versions.downloadReport(id, name);
     if (result.success) alert(`Downloaded: ${name}`);
     else alert(`Download failed: ${result.message}`);
   };
 
-
   // Delete report
   const handleDelete = async (id) => {
+    if (!window.versions?.deleteReport) return console.error("deleteReport is undefined!");
     const confirmed = window.confirm("Are you sure you want to delete this report?");
     if (!confirmed) return;
-
-    const result = await ipcRenderer.invoke("delete-report", id);
-    if (result.success) fetchReports(); // refresh list
+    const result = await window.versions.deleteReport(id);
+    if (result.success) fetchReports();
     else alert(`Delete failed: ${result.message}`);
   };
 

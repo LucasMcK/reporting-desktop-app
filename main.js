@@ -10,6 +10,8 @@ const {
   getAllReports,
   deleteReport,
 } = require("./utils/db");
+const { handleFormSubmission } = require("./utils/excel");
+
 
 let mainWindow;
 let currentUser = null;
@@ -21,8 +23,9 @@ function createWindow() {
     width: 1200,
     height: 800,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
     },
   });
 
@@ -156,5 +159,16 @@ ipcMain.handle("delete-report", async (event, id) => {
   } catch (err) {
     console.error(err);
     return { success: false, message: err.message };
+  }
+});
+
+// ----------------- FORMS -----------------
+ipcMain.handle("submit-form", async (event, formData) => {
+  try {
+    await handleFormSubmission(formData);
+    return { success: true };
+  } catch (err) {
+    console.error("Error handling form:", err);
+    return { success: false, error: err.message };
   }
 });

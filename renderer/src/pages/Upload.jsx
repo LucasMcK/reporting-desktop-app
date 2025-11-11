@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/upload.css";
-const { ipcRenderer } = window.require("electron");
 
 function Upload({ page, goTo, username }) { // <-- receive username
   const [uploading, setUploading] = useState(false);
@@ -20,11 +19,11 @@ function Upload({ page, goTo, username }) { // <-- receive username
         const data = Buffer.from(arrayBuffer);
 
         // Send to main process with uploadedBy
-        const result = await ipcRenderer.invoke("upload-report", {
-          name: file.name,
+        const result = await window.versions.uploadReport(
+          file.name,
           data,
-          uploadedBy: currentUser,
-        });
+          currentUser
+        );
 
         if (!result.success) {
           setMessageType("error");

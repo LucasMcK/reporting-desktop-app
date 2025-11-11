@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
-const { ipcRenderer } = window.require("electron");
 import "../styles/users.css";
 
 function Users({ page, goTo }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    ipcRenderer.invoke('get-users').then((data) => {
-      console.log('Fetched users:', data); // DEBUG: check output
-      setUsers(data || []);
-    });
+    window.versions.getUsers().then((data) => setUsers(data || []));
   }, []);
 
   return (

@@ -91,10 +91,13 @@
 
 /* ----------------- Main Content ----------------- */
 .content {
-  margin-left: 220px;  /* leaves space for sidebar */
+  margin-left: var(--sidebar-width, 220px);
   padding: 25px 40px;
   overflow-y: auto;
   transition: margin-left 0.3s;
+  flex-grow: 1;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .sidebar.collapsed ~ .content {

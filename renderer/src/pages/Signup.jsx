@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-const { ipcRenderer } = window.require("electron");
 import Button from "../components/Button.jsx";
 import "../styles/auth.css";
 import "../styles/global.css";
@@ -17,15 +16,20 @@ function Signup({ goTo }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await ipcRenderer.invoke("create-user", { username, password });
 
-    setMessage(result.message);
-    setMessageColor(result.success ? "green" : "red");
+    if (!window.versions?.createUser) {
+      console.error("createUser is undefined!");
+      return;
+    }
 
+    const result = await window.versions.createUser(username, password);
     if (result.success) {
-      setTimeout(() => goTo("login"), 1000);
+      goTo("login");
+    } else {
+      alert(result.message);
     }
   };
+
 
   const handleLoginClick = (e) => {
     e.preventDefault();
