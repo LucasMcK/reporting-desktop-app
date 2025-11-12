@@ -25,7 +25,10 @@ function Login({ goTo }) {
     setMessage(result.message);
     setMessageColor(result.success ? "green" : "red");
 
-    if (result.success) goTo("dashboard");
+    if (result.success) {
+      localStorage.setItem("username", result.username);
+      goTo("dashboard");
+    }
   };
 
   const handleSignupClick = (e) => {

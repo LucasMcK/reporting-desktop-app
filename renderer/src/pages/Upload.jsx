@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/upload.css";
 
-function Upload({ page, goTo, username }) { // <-- receive username
+function Upload({ page, goTo }) {
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState(""); // notification text
   const [messageType, setMessageType] = useState(""); // "success" or "error"

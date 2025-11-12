@@ -8,7 +8,9 @@ const Form = ({ goTo, page }) => {
   // --- Form states ---
   const [dayOfMonth, setDayOfMonth] = useState("");
   useEffect(() => setDayOfMonth(new Date().getDate().toString()), []);
-  const makeAndSize = 15;
+  const makeAndSize = 15; // DEFAULT VALUE FOR TESTING—CHANGE LATER
+  const initialTankGauge = 207; // DEFAULT VALUE FOR TESTING—CHANGE LATER
+  const currentUser = localStorage.getItem("username");
 
   const handleNumericInput = (e, setter, options = {}) => {
     const raw = e.target.value;
@@ -109,45 +111,86 @@ const Form = ({ goTo, page }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = {
-      dayOfMonth,
-      hoursOn,
-      hoursDown,
-      reason,
-      bsw,
-      sandPercent,
-      prod,
-      grossVol,
-      shipmentBsw,
-      shipmentOil,
-      shipmentWater,
-      configLocation,
-      monthYear,
-      year,
-      month,
-      location,
-      quadrantLSD,
-      section,
-      township,
-      range,
-      meridian,
-      comments,
-      initials,
-    };
+        // --- Meta info ---
+        currentUser,
+        year,
+        month,
+        location,
+        monthYear,
+        dayOfMonth,
 
-    if (!window.versions?.submitForm) {
-        console.error("submitForm is undefined!");
-        return;
-    }
+        // --- Worksheet location ---
+        quadrantLSD,
+        section,
+        township,
+        range,
+        meridian,
+        configLocation,
 
-    const result = await window.versions.submitForm(formData);
+        // --- Operational hours ---
+        hoursOn,
+        hoursDown,
+        reason,
 
-    if (result.success) {
-        alert("Form submitted successfully!");
-    } else {
-        alert("Error submitting form: " + result.error);
-    }
+        // --- Fluid quality metrics ---
+        bsw,
+        sandPercent,
+
+        // --- Production volumes ---
+        prod,
+        netOil,
+        netSand,
+        netWater,
+        recycle,
+
+        // --- Shipments ---
+        grossVol,
+        shipmentBsw,
+        shipmentOil,
+        shipmentWater,
+        waterLoads,
+        shipmentSand,
+
+        // --- Fluids ---
+        fluidOut,
+        fluidIn,
+        foamLoss,
+        tankGauge,
+
+        // --- Tank & equipment readings ---
+        propane,
+        tankTemp,
+        fluidLevel,
+        pump,
+        efficiency,
+        psi,
+
+        // --- Pressure ---
+        tbg,
+        csg,
+
+        // --- Closing section ---
+        ticketNumber,
+        comments,
+        initials,
   };
+
+  if (!window.versions?.submitForm) {
+    console.error("submitForm is undefined!");
+    return;
+  }
+
+  const result = await window.versions.submitForm(formData);
+
+  if (result.success) {
+    alert("Form submitted successfully!");
+  } else {
+    alert("Error submitting form: " + result.error);
+  }
+};
+
 
   return (
     <>
