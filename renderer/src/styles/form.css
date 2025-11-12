@@ -1,7 +1,7 @@
 /* ---------- FORM SECTIONS (CARD STYLE) ---------- */
 .form-section {
   width: 100%;
-  min-width: 0;
+  min-width: 1000px;
   margin-bottom: 3rem;
   padding: 2rem 2.5rem;
   border-radius: 16px;
@@ -28,8 +28,8 @@
 
 /* ---------- FORM GRID ---------- */
 .form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  align-items: center;
   gap: 1.5rem;
   margin-bottom: 1.8rem;
 }
@@ -47,7 +47,7 @@ input {
   color: #2d3748;
   transition: all 0.25s ease;
   background-color: #ffffff;
-  width: 100%;
+  width: 25%;
   box-sizing: border-box;
 }
 
