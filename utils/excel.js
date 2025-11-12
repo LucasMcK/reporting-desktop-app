@@ -1,6 +1,9 @@
 const ExcelJS = require("exceljs");
+const path = require("path");
+const fs = require("fs");
 const { db } = require("./db");
 
+// ------------------- DB FUNCTIONS -------------------
 function checkReportExists(workbookName) {
   return new Promise((resolve, reject) => {
     db.get("SELECT * FROM reports WHERE name = ?", [workbookName], (err, row) => {
@@ -38,35 +41,67 @@ function saveWorkbookToDB(workbookName, buffer, uploaded_by) {
   });
 }
 
-async function handleFormSubmission(formData) {
+// ------------------- CLONE WORKSHEET -------------------
+function cloneWorksheet(workbook, templateSheetName, newSheetName) {
+  const templateSheet = workbook.getWorksheet(templateSheetName);
+  if (!templateSheet) {
+    throw new Error(`Template worksheet "${templateSheetName}" not found`);
+  }
+
+  const newSheet = workbook.addWorksheet(newSheetName);
+
+  // Copy column info
+  templateSheet.columns.forEach(col => {
+    const newCol = newSheet.getColumn(col.number);
+    newCol.key = col.key;
+    newCol.header = col.header;
+    newCol.width = col.width || 20;
+  });
+
+  // Copy rows
+  templateSheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
+    const newRow = newSheet.getRow(rowNumber);
+    row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+      const newCell = newRow.getCell(colNumber);
+      newCell.value = cell.value;
+      newCell.style = { ...cell.style };
+      newCell.numFmt = cell.numFmt;
+    });
+    newRow.height = row.height;
+  });
+
+  return newSheet;
+}
+
+// ------------------- MAIN HANDLER -------------------
+async function handleFormSubmission(formData, templatePath) {
   const workbookName = `${formData.year}-${formData.month} ${formData.location}.xlsx`;
   const existingReport = await checkReportExists(workbookName);
 
-  let workbook;
+  const workbook = new ExcelJS.Workbook();
+
   if (existingReport) {
-    workbook = new ExcelJS.Workbook();
     await workbook.xlsx.load(existingReport.data);
   } else {
-    workbook = new ExcelJS.Workbook();
+    if (!fs.existsSync(templatePath)) {
+      throw new Error(`Template not found at ${templatePath}`);
+    }
+    await workbook.xlsx.readFile(templatePath);
   }
 
-  const wsName = `${formData.configLocation}`;
-  const worksheet = workbook.addWorksheet(wsName);
+  const wsName = formData.configLocation;
+  let worksheet = workbook.getWorksheet(wsName);
 
-  worksheet.columns = Object.keys(formData).map((key) => ({
-    header: key,
-    key: key,
-    width: 20,
-  }));
+  if (!worksheet) {
+    worksheet = cloneWorksheet(workbook, "Well Template", wsName);
+  }
 
   worksheet.addRow(formData);
 
   const buffer = await workbook.xlsx.writeBuffer();
-
-  const uploaded_by = formData.currentUser;
-
-  await saveWorkbookToDB(workbookName, buffer, uploaded_by);
+  await saveWorkbookToDB(workbookName, buffer, formData.currentUser);
 }
+
 
 module.exports = {
   handleFormSubmission,

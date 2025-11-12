@@ -11,7 +11,7 @@ const {
   deleteReport,
 } = require("./utils/db");
 const { handleFormSubmission } = require("./utils/excel");
-
+const TEMPLATE_PATH = path.join(__dirname, "base_template.xlsx");
 
 let mainWindow;
 let currentUser = null;
@@ -165,7 +165,7 @@ ipcMain.handle("delete-report", async (event, id) => {
 // ----------------- FORMS -----------------
 ipcMain.handle("submit-form", async (event, formData) => {
   try {
-    await handleFormSubmission(formData);
+    await handleFormSubmission(formData, TEMPLATE_PATH);
     return { success: true };
   } catch (err) {
     console.error("Error handling form:", err);
