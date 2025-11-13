@@ -89,16 +89,24 @@ const Form = ({ goTo, page }) => {
     setMonthYear(`${months[d.getMonth()]}-${d.getFullYear().toString().slice(-2)}`);
   }, []);
 
-  // Disable number input scroll
   useEffect(() => {
-    const handler = (e) => {
-      if (document.activeElement?.type === "number") {
+    const preventScrollOnNumber = (e) => {
+        if (document.activeElement?.type === "number") {
+        // Only prevent default on the number input itself
         e.preventDefault();
-      }
+        }
     };
 
-    window.addEventListener("wheel", handler, { passive: false });
-    return () => window.removeEventListener("wheel", handler);
+    const numberInputs = document.querySelectorAll('input[type="number"]');
+    numberInputs.forEach((input) => {
+        input.addEventListener("wheel", preventScrollOnNumber, { passive: false });
+    });
+
+    return () => {
+        numberInputs.forEach((input) => {
+        input.removeEventListener("wheel", preventScrollOnNumber);
+        });
+    };
   }, []);
 
   // --- Derived values ---
