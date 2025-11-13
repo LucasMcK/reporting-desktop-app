@@ -17,7 +17,6 @@ contextBridge.exposeInMainWorld("versions", {
 
   getUsers: () => ipcRenderer.invoke("get-users"),
 
-  // Reports
   getReports: () => ipcRenderer.invoke("get-reports"),
   downloadReport: (id, name) => ipcRenderer.invoke("download-report", { id, name }),
   deleteReport: (id) => ipcRenderer.invoke("delete-report", id),
