@@ -237,18 +237,52 @@ const Form = ({ goTo, page }) => {
           <div className="form-row">
             <input type="number" step="any" placeholder="Hours On" value={hoursOn} onChange={e => handleNumericInput(e, setHoursOn, { min: 0, max: 24 })} />
             <input type="number" placeholder="Hours Down" value={hoursDown} disabled />
+          </div>
+          <div className="form-row">
             <textarea placeholder="Reason for Downtime" value={reason} onChange={e => setReason(e.target.value)} disabled={hoursDown <= 0} />
           </div>
         </fieldset>
 
-        {/* --- Fluid Quality --- */}
+        {/* --- Fluid Quality and Pressure --- */}
+        <div className="form-section-row">
         <fieldset className="form-section">
-          <h2>FLUID QUALITY METRICS</h2>
-          <div className="form-row">
-            <input type="number" step="any" placeholder="Total BS&W (%)" value={bsw} onChange={e => setBsw(parseFloat(e.target.value))} />
-            <input type="number" step="any" placeholder="Sand (%)" value={sandPercent} onChange={e => setSandPercent(parseFloat(e.target.value))} />
-          </div>
+            <h2>FLUID QUALITY METRICS</h2>
+            <div className="form-row">
+            <input
+                type="number"
+                step="any"
+                placeholder="Total BS&W (%)"
+                value={bsw}
+                onChange={e => setBsw(parseFloat(e.target.value))}
+            />
+            <input
+                type="number"
+                step="any"
+                placeholder="Sand (%)"
+                value={sandPercent}
+                onChange={e => setSandPercent(parseFloat(e.target.value))}
+            />
+            </div>
         </fieldset>
+
+        <fieldset className="form-section">
+            <h2>PRESSURE</h2>
+            <div className="form-row">
+            <input
+                type="number"
+                placeholder="Tbg (kPa)"
+                value={tbg}
+                onChange={e => setTbg(parseFloat(e.target.value))}
+            />
+            <input
+                type="number"
+                placeholder="Csg (kPa)"
+                value={csg}
+                onChange={e => setCsg(parseFloat(e.target.value))}
+            />
+            </div>
+        </fieldset>
+        </div>
 
         {/* --- Production Volumes --- */}
         <fieldset className="form-section">
@@ -299,22 +333,15 @@ const Form = ({ goTo, page }) => {
           </div>
         </fieldset>
 
-        {/* --- Pressure --- */}
-        <fieldset className="form-section">
-          <h2>PRESSURE</h2>
-          <div className="form-row">
-            <input type="number" placeholder="Tbg (kPa)" value={tbg} onChange={e => setTbg(parseFloat(e.target.value))} />
-            <input type="number" placeholder="Csg (kPa)" value={csg} onChange={e => setCsg(parseFloat(e.target.value))} />
-          </div>
-        </fieldset>
-
         {/* --- Closing Section --- */}
         <fieldset className="form-section">
           <h2>CLOSING SECTION</h2>
           <div className="form-row">
             <input placeholder="Ticket Number" value={ticketNumber} onChange={e => setTicketNumber(parseFloat(e.target.value))} />
-            <textarea placeholder="Comments" value={comments} onChange={e => setComments(e.target.value)} />
             <input placeholder="Operator Initials" value={initials} onChange={e => setInitials(e.target.value.toUpperCase())} maxLength={2} />
+          </div>
+          <div className="form-row">
+            <textarea placeholder="Comments" value={comments} onChange={e => setComments(e.target.value)} />
           </div>
         </fieldset>
 
