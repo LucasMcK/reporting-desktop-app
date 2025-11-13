@@ -89,6 +89,18 @@ const Form = ({ goTo, page }) => {
     setMonthYear(`${months[d.getMonth()]}-${d.getFullYear().toString().slice(-2)}`);
   }, []);
 
+  // Disable number input scroll
+  useEffect(() => {
+    const handler = (e) => {
+      if (document.activeElement?.type === "number") {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener("wheel", handler, { passive: false });
+    return () => window.removeEventListener("wheel", handler);
+  }, []);
+
   // --- Derived values ---
   const hoursDown = safeNumber(hoursOn !== "" ? 24 - Number(hoursOn) : "");
   const netOil = safeNumber(prod && bsw ? Number((prod * (1 - bsw / 100)).toFixed(1)) : "");
