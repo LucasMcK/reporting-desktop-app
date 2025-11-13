@@ -130,73 +130,113 @@ async function handleFormSubmission(formData = {}, templatePath) {
   let worksheet = workbook.getWorksheet(wsName);
   if (!worksheet) worksheet = cloneWorksheet(workbook, "Well Template", wsName);
 
-  // --- Build header map from rows 5 ---
-  const headerMap = {};
-  const headerRow = worksheet.getRow(5); // top row of merged header
+  // helper to get cell text
+  const getCellText = (cell) => {
+    if (!cell || cell.value == null) return "";
+    const v = cell.value;
+    if (typeof v === "object") {
+      if (v.richText) return v.richText.map(t => t.text).join("").trim();
+      if (v.text) return v.text.toString().trim();
+      return String(v).trim();
+    }
+    return String(v).trim();
+  };
 
-  headerRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-    let header = "";
+  // --- Build parent map for merged headers (row 5 only) ---
+  const parentMap = {};
+  const merges = worksheet.model.merges || [];
+  merges.forEach((mergeAddress) => {
+    const [startAddr, endAddr] = mergeAddress.split(":");
+    const startCell = worksheet.getCell(startAddr);
+    const endCell = worksheet.getCell(endAddr || startAddr);
 
-    if (cell.value) {
-      if (typeof cell.value === "object") {
-        if (cell.value.richText) {
-          header = cell.value.richText.map(t => t.text).join("").trim();
-        } else if (cell.value.text) {
-          header = cell.value.text.trim();
-        }
-      } else {
-        header = cell.value.toString().trim();
+    if (startCell.row === 5) {
+      const startCol = startCell.col;
+      const endCol = endCell.col;
+      const parentHeader = getCellText(startCell);
+      for (let col = startCol; col <= endCol; col++) {
+        parentMap[col] = parentHeader;
       }
     }
-
-    if (header) headerMap[header] = colNumber;
   });
 
-  // --- Determine target row (day of month) ---
+  // Include single headers in row 5 (not merged)
+  worksheet.getRow(5).eachCell({ includeEmpty: true }, (cell, colNumber) => {
+    if (!parentMap[colNumber] && getCellText(cell)) {
+      parentMap[colNumber] = getCellText(cell);
+    }
+  });
+
+  // --- Build header map from row 6, combine with parent if parent is Shipment or Pressure ---
+  const headerMap = {};
+  worksheet.getRow(6).eachCell({ includeEmpty: true }, (cell, colNumber) => {
+    const subHeader = getCellText(cell);
+    const parent = parentMap[colNumber];
+
+    if (parent && (parent === "Shipment" || parent === "Pressure") && subHeader) {
+      headerMap[`${parent}: ${subHeader}`] = colNumber;
+    } else if (subHeader) {
+      headerMap[subHeader] = colNumber;
+    } else if (parent) {
+      // Only parent exists (rare case)
+      headerMap[parent] = colNumber;
+    }
+  });
+
+  // --- Determine target row ---
   const today = new Date();
-  const dayOfTheMonth = today.getDate();
-  const targetRowIndex = 6 + dayOfTheMonth;
+  const targetRowIndex = 6 + today.getDate(); // row 6 is first data row
   const targetRow = worksheet.getRow(targetRowIndex);
 
   // --- Map form fields to headers ---
   const dataMap = {
     "Hours On": formData.hoursOn ?? "",
     "Hours Down": formData.hoursDown ?? "",
-    "Reason": formData.reason ?? "",
-    "BS&W (%)": formData.bsw ?? "",
-    "Sand (%)": formData.sandPercent ?? "",
+    "Reason for Downtime": formData.reason ?? "",
+    "Total BS&W": formData.bsw ?? "",
+    "Sand %": formData.sandPercent ?? "",
+    "Tank Gauge": formData.tankGauge ?? "",
     "Prod (m3)": formData.prod ?? "",
     "Net Oil (m3)": formData.netOil ?? "",
     "Net Sand (m3)": formData.netSand ?? "",
     "Net Water (m3)": formData.netWater ?? "",
     "Recycle (m3)": formData.recycle ?? "",
-    "Gross (Vol)": formData.grossVol ?? "",
-    "Shipment BS&W (%)": formData.shipmentBsw ?? "",
-    "Shipment Oil (m3)": formData.shipmentOil ?? "",
-    "Shipment Water (m3)": formData.shipmentWater ?? "",
+
+    // Shipment section (parent: Shipment)
+    "Gross Vol": formData.grossVol ?? "",
+    "BS&W": formData.shipmentBsw ?? "",
+    "Oil (m3)": formData.shipmentOil ?? "",
+    "Water (m3)": formData.shipmentWater ?? "",
     "Water Loads": formData.waterLoads ?? "",
     "Sand (m3)": formData.shipmentSand ?? "",
+
+    "Ticket #": formData.ticketNumber ?? "",
     "Fluid Out (m3)": formData.fluidOut ?? "",
     "Fluid In (m3)": formData.fluidIn ?? "",
-    "Foam Loss": formData.foamLoss ?? "",
-    "Tank Gauge": formData.tankGauge ?? "",
+    "Foam Loss (m3)": formData.foamLoss ?? "",
+
+    // Pressure section (parent: Pressure)
+    "Pressure: Tbg (kPa)": formData.tbg ?? "",
+    "Pressure: Csg (kPa)": formData.csg ?? "",
+
     "Propane (%full)": formData.propane ?? "",
     "Tank Temp #1": formData.tankTemp ?? "",
     "Fluid Level (JTF)": formData.fluidLevel ?? "",
     "Pump (RPM)": formData.pump ?? "",
     "Efficiency": formData.efficiency ?? "",
     "psi Hyd": formData.psi ?? "",
-    "Tbg (kPa)": formData.tbg ?? "",
-    "Csg (kPa)": formData.csg ?? "",
-    "Ticket Number": formData.ticketNumber ?? "",
     "Comments": formData.comments ?? "",
-    "Operator Initials": formData.initials ?? "",
+    "Operators Initials": formData.initials ?? "",
   };
 
-  // --- Write data to worksheet ---
+  // --- Write to worksheet ---
   Object.entries(dataMap).forEach(([header, value]) => {
     const colNumber = headerMap[header];
-    if (colNumber) targetRow.getCell(colNumber).value = value ?? "";
+    if (colNumber) {
+      targetRow.getCell(colNumber).value = value ?? "";
+    } else {
+      console.warn(`No matching column found for form field: "${header}"`);
+    }
   });
 
   targetRow.commit();
