@@ -41,12 +41,13 @@ function saveWorkbookToDB(workbookName, buffer, uploaded_by) {
 }
 
 // ------------------- CLONE WORKSHEET -------------------
-function cloneWorksheet(workbook, templateSheetName, newSheetName) {
+const cloneWorksheet = (workbook, templateSheetName, newSheetName) => {
   const templateSheet = workbook.getWorksheet(templateSheetName);
   if (!templateSheet) throw new Error(`Template worksheet "${templateSheetName}" not found`);
 
   const newSheet = workbook.addWorksheet(newSheetName);
 
+  // --- Copy columns ---
   templateSheet.columns.forEach((col) => {
     const newCol = newSheet.getColumn(col.number);
     newCol.key = col.key;
@@ -54,19 +55,44 @@ function cloneWorksheet(workbook, templateSheetName, newSheetName) {
     newCol.width = col.width || 20;
   });
 
+  // --- Copy rows and cells ---
   templateSheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
     const newRow = newSheet.getRow(rowNumber);
+    newRow.height = row.height;
+
     row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
       const newCell = newRow.getCell(colNumber);
-      newCell.value = cell.value;
+
+      // Only set value for master cell if merged
+      if (!cell.isMerged || cell.address === cell.master.address) {
+        newCell.value = cell.value;
+      }
+
+      // Copy style, number format, fill
       newCell.style = { ...cell.style };
       newCell.numFmt = cell.numFmt;
+      if (cell.fill) newCell.fill = { ...cell.fill };
+      if (cell.font) newCell.font = { ...cell.font };
+      if (cell.alignment) newCell.alignment = { ...cell.alignment };
+      if (cell.border) newCell.border = { ...cell.border };
     });
-    newRow.height = row.height;
+  });
+
+  // --- Copy merged cells ---
+  if (templateSheet.model.merges) {
+    templateSheet.model.merges.forEach((mergeAddress) => {
+      newSheet.mergeCells(mergeAddress);
+    });
+  }
+
+  // --- Copy images ---
+  const images = templateSheet.getImages();
+  images.forEach(({ imageId, range }) => {
+    newSheet.addImage(imageId, range);
   });
 
   return newSheet;
-}
+};
 
 // ------------------- MAIN HANDLER -------------------
 async function handleFormSubmission(formData = {}, templatePath) {
