@@ -91,6 +91,24 @@ const cloneWorksheet = (workbook, templateSheetName, newSheetName) => {
     newSheet.addImage(imageId, range);
   });
 
+  // --- Hard code border for top of row 7 ---
+  const row7 = newSheet.getRow(7);
+    for (let col = 1; col <= 45; col++) {
+      const cell = row7.getCell(col);
+      cell.border = {
+        ...cell.border,
+        top: { style: 'medium' },
+    };
+  }
+
+  // --- Hard code medium border for row 5 between AS and AT ---
+  const row5 = newSheet.getRow(5);
+    const cellAT = row5.getCell('AS');
+    cellAT.border = {
+      ...cellAT.border,
+      right: { style: 'medium' },
+  };
+
   return newSheet;
 };
 
