@@ -97,6 +97,26 @@ textarea:focus {
   outline: none;
 }
 
+/* Base select styling */
+select {
+  padding: 1rem 1.5rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  background-color: #ffffff;
+  color: #2d3748; /* normal text color */
+  text-align: center;
+  appearance: none; /* remove default arrow styling */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Placeholder text color */
+input::placeholder,
+select.placeholder {
+  color: #a0aec0;
+}
+
 /* ---------- DISABLED FIELDS ---------- */
 input:disabled,
 textarea:disabled {
