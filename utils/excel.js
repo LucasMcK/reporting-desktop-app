@@ -190,53 +190,63 @@ async function handleFormSubmission(formData = {}, templatePath) {
 
   // --- Map form fields to headers ---
   const dataMap = {
-    "Hours On": formData.hoursOn ?? "",
-    "Hours Down": formData.hoursDown ?? "",
-    "Reason for Downtime": formData.reason ?? "",
-    "Total BS&W": formData.bsw ?? "",
-    "Sand %": formData.sandPercent ?? "",
-    "Tank Gauge": formData.tankGauge ?? "",
-    "Prod (m3)": formData.prod ?? "",
-    "Net Oil (m3)": formData.netOil ?? "",
-    "Net Sand (m3)": formData.netSand ?? "",
-    "Net Water (m3)": formData.netWater ?? "",
-    "Recycle (m3)": formData.recycle ?? "",
+    "Hours On": formData.hoursOn,
+    "Hours Down": formData.hoursDown,
+    "Reason for Downtime": formData.reason,
+    "Total BS&W": formData.bsw,
+    "Sand %": formData.sandPercent,
+    "Tank Gauge": formData.tankGauge,
+    "Prod (m3)": formData.prod,
+    "Net Oil (m3)": formData.netOil,
+    "Net Sand (m3)": formData.netSand,
+    "Net Water (m3)": formData.netWater,
+    "Recycle (m3)": formData.recycle,
 
     // Shipment section (parent: Shipment)
-    "Gross Vol": formData.grossVol ?? "",
-    "BS&W": formData.shipmentBsw ?? "",
-    "Oil (m3)": formData.shipmentOil ?? "",
-    "Water (m3)": formData.shipmentWater ?? "",
-    "Water Loads": formData.waterLoads ?? "",
-    "Sand (m3)": formData.shipmentSand ?? "",
+    "Gross Vol": formData.grossVol,
+    "BS&W": formData.shipmentBsw,
+    "Oil (m3)": formData.shipmentOil,
+    "Water (m3)": formData.shipmentWater,
+    "Water Loads": formData.waterLoads,
+    "Sand (m3)": formData.shipmentSand,
 
-    "Ticket #": formData.ticketNumber ?? "",
-    "Fluid Out (m3)": formData.fluidOut ?? "",
-    "Fluid In (m3)": formData.fluidIn ?? "",
-    "Foam Loss (m3)": formData.foamLoss ?? "",
+    "Ticket #": formData.ticketNumber,
+    "Fluid Out (m3)": formData.fluidOut,
+    "Fluid In (m3)": formData.fluidIn,
+    "Foam Loss (m3)": formData.foamLoss,
 
     // Pressure section (parent: Pressure)
-    "Pressure: Tbg (kPa)": formData.tbg ?? "",
-    "Pressure: Csg (kPa)": formData.csg ?? "",
+    "Pressure: Tbg (kPa)": formData.tbg,
+    "Pressure: Csg (kPa)": formData.csg,
 
-    "Propane (%full)": formData.propane ?? "",
-    "Tank Temp #1": formData.tankTemp ?? "",
-    "Fluid Level (JTF)": formData.fluidLevel ?? "",
-    "Pump (RPM)": formData.pump ?? "",
-    "Efficiency": formData.efficiency ?? "",
-    "psi Hyd": formData.psi ?? "",
-    "Comments": formData.comments ?? "",
-    "Operators Initials": formData.initials ?? "",
+    "Propane (%full)": formData.propane,
+    "Tank Temp #1": formData.tankTemp,
+    "Fluid Level (JTF)": formData.fluidLevel,
+    "Pump (RPM)": formData.pump,
+    "Efficiency": formData.efficiency,
+    "psi Hyd": formData.psi,
+    "Comments": formData.comments,
+    "Operators Initials": formData.initials,
   };
 
-  // --- Write to worksheet ---
-  Object.entries(dataMap).forEach(([header, value]) => {
+  // --- Write to non-empty data worksheet ---
+  Object.entries(dataMap)
+  .filter(([_, value]) => value !== null && value !== undefined && value !== "")
+  .forEach(([header, value]) => {
     const colNumber = headerMap[header];
-    if (colNumber) {
-      targetRow.getCell(colNumber).value = value ?? "";
-    } else {
+    if (!colNumber) {
       console.warn(`No matching column found for form field: "${header}"`);
+      return;
     }
+    const writeValue = (val) => {
+      if (val === null || val === undefined || val === "") return val;
+      // Try converting strings that are numbers to actual numbers
+      const num = Number(val);
+      return !isNaN(num) ? num : val;
+    };
+
+    // Then when writing:
+    targetRow.getCell(colNumber).value = writeValue(value);
   });
 
   targetRow.commit();
