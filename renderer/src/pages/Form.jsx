@@ -53,16 +53,6 @@ const Form = ({ goTo, page }) => {
   const initialTankGauge = 207; // DEFAULT VALUE FOR TESTING—CHANGE LATER
   const currentUser = localStorage.getItem("username");
 
-  const handleNumericInput = (e, setter, options = {}) => {
-    const raw = e.target.value;
-    if (raw === "") return setter("");
-    let val = parseFloat(raw);
-    if (isNaN(val)) return;
-    if (options.min !== undefined) val = Math.max(options.min, val);
-    if (options.max !== undefined) val = Math.min(options.max, val);
-    setter(val);
-  };
-
   // Worksheet name info
   const [quadrantLSD, setQuadrantLSD] = useState("");
   const [section, setSection] = useState("");
@@ -166,13 +156,6 @@ const Form = ({ goTo, page }) => {
         year,
         month,
         location,
-        monthYear,
-        dayOfMonth,
-        quadrantLSD,
-        section,
-        township,
-        range,
-        meridian,
         configLocation,
         hoursOn,
         hoursDown,
@@ -417,11 +400,8 @@ const Form = ({ goTo, page }) => {
                 placeholder="Hours On" 
                 value={hoursOn} 
                 onChange={e => {
-                    // Update the state safely
-                    handleNumericInput(e, setHoursOn, { min: 0, max: 24 });
-
-                    // Only auto-focus to BSW if the value is exactly 24
-                    if (parseFloat(e.target.value) === 24) {
+                    setHoursOn(e.target.value);
+                    if (e.target.value === 24) {
                         bswRef.current?.focus();
                     } else if (e.target.value.length === 2 && e.target !== 24) {
                         reasonRef.current?.focus();
@@ -478,7 +458,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Total BS&W (%)"
                 value={bsw}
                 onChange={e => {
-                    setBsw(parseFloat(e.target.value));
+                    setBsw(e.target.value);
                     if (e.target.value.length === 2) {
                         sandPercentRef.current.focus();
                     }
@@ -504,7 +484,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Sand (%)"
                 value={sandPercent}
                 onChange={e => {
-                    setSandPercent(parseFloat(e.target.value));
+                    setSandPercent(e.target.value);
                     if (e.target.value.length === 1) {
                         tbgRef.current.focus();
                     }
@@ -532,7 +512,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Tbg (kPa)"
                 value={tbg}
                 onChange={e => {
-                    setTbg(parseFloat(e.target.value));
+                    setTbg(e.target.value);
                     if (e.target.value.length === 2) {
                         csgRef.current.focus();
                     }
@@ -554,7 +534,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Csg (kPa)"
                 value={csg}
                 onChange={e => {
-                    setCsg(parseFloat(e.target.value));
+                    setCsg(e.target.value);
                     if (e.target.value.length === 2) {
                         prodRef.current.focus();
                     }
@@ -584,7 +564,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Prod (m³)" 
                 value={prod} 
                 onChange={e => {
-                    setProd(parseFloat(e.target.value));
+                    setProd(e.target.value);
                     if (e.target.value.length === 2) {
                         recycleRef.current.focus();
                     }
@@ -609,7 +589,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Recycle (m³)" 
                 value={recycle} 
                 onChange={e => {
-                    setRecycle(parseFloat(e.target.value));
+                    setRecycle(e.target.value);
                     if (e.target.value.length === 1) {
                         grossVolRef.current.focus();
                     }
@@ -638,7 +618,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Gross (Vol)" 
                 value={grossVol} 
                 onChange={e => {
-                    setGrossVol(parseFloat(e.target.value));
+                    setGrossVol(e.target.value);
                     if (e.target.value.length === 2) {
                         shipmentBswRef.current.focus();
                     }
@@ -660,7 +640,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="BS&W (%)" 
                 value={shipmentBsw} 
                 onChange={e => {
-                    setShipmentBsw(parseFloat(e.target.value));
+                    setShipmentBsw(e.target.value);
                     if (e.target.value.length === 1) {
                         waterLoadsRef.current.focus();
                     }
@@ -684,7 +664,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Water Loads" 
                 value={waterLoads} 
                 onChange={e => {
-                    setWaterLoads(parseFloat(e.target.value));
+                    setWaterLoads(e.target.value);
                     if (e.target.value.length === 2) {
                         shipmentSandRef.current.focus();
                     }
@@ -706,7 +686,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Sand (m³)" 
                 value={shipmentSand} 
                 onChange={e => {
-                    setShipmentSand(parseFloat(e.target.value));
+                    setShipmentSand(e.target.value);
                     if (e.target.value.length === 1) {
                         fluidOutRef.current.focus();
                     }
@@ -735,7 +715,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Fluid Out (m³)" 
                 value={fluidOut} 
                 onChange={e => {
-                    setFluidOut(parseFloat(e.target.value));
+                    setFluidOut(e.target.value);
                     if (e.target.value.length === 1) {
                         fluidInRef.current.focus();
                     }
@@ -757,7 +737,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Fluid In (m³)" 
                 value={fluidIn} 
                 onChange={e => {
-                    setFluidIn(parseFloat(e.target.value));
+                    setFluidIn(e.target.value);
                     if (e.target.value.length === 1) {
                         foamLossRef.current.focus();
                     }
@@ -779,7 +759,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Foam Loss" 
                 value={foamLoss} 
                 onChange={e => {
-                    setFoamLoss(parseFloat(e.target.value));
+                    setFoamLoss(e.target.value);
                     if (e.target.value.length === 1) {
                         propaneRef.current.focus();
                     }
@@ -809,7 +789,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Propane (% full)" 
                 value={propane} 
                 onChange={e => {
-                    setPropane(parseFloat(e.target.value));
+                    setPropane(e.target.value);
                     if (e.target.value.length === 5) {
                         tankTempRef.current.focus();
                     }
@@ -831,7 +811,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Tank Temp" 
                 value={tankTemp} 
                 onChange={e => {
-                    setTankTemp(parseFloat(e.target.value));
+                    setTankTemp(e.target.value);
                     if (e.target.value.length === 5) {
                         fluidLevelRef.current.focus();
                     }
@@ -853,7 +833,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Fluid Level (JTF)" 
                 value={fluidLevel} 
                 onChange={e => {
-                    setFluidLevel(parseFloat(e.target.value));
+                    setFluidLevel(e.target.value);
                     if (e.target.value.length === 2) {
                         pumpRef.current.focus();
                     }
@@ -875,7 +855,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Pump (RPM)" 
                 value={pump} 
                 onChange={e => {
-                        setPump(parseFloat(e.target.value))
+                        setPump(e.target.value)
                         if (e.target.value.length === 2) {
                             psiRef.current.focus();
                         }
@@ -898,7 +878,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="psi (Hyd)" 
                 value={psi} 
                 onChange={e => {
-                    setPsi(parseFloat(e.target.value));
+                    setPsi(e.target.value);
                     if (e.target.value.length === 3) {
                         ticketNumberRef.current.focus();
                     }
@@ -926,7 +906,7 @@ const Form = ({ goTo, page }) => {
                 placeholder="Ticket Number" 
                 value={ticketNumber}
                 onChange={e => {
-                    setTicketNumber(e.target.value === "" ? "" : parseFloat(e.target.value));
+                    setTicketNumber(e.target.value === "" ? "" : e.target.value);
                     if (e.target.value.length === 6) {
                         initialsRef.current.focus();
                     }
