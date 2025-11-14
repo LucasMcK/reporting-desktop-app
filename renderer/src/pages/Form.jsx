@@ -263,6 +263,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        yearRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setMonth(e.target.value);
                         quadrantLSDRef.current?.focus();
@@ -301,6 +305,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        monthRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setQuadrantLSD(e.target.value);
                         sectionRef.current?.focus();
@@ -319,6 +327,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        quadrantLSDRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setSection(e.target.value);
                         townshipRef.current?.focus();
@@ -337,6 +349,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        sectionRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setTownship(e.target.value);
                         rangeRef.current?.focus();
@@ -355,6 +371,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        townshipRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setRange(e.target.value);
                         meridianRef.current?.focus();
@@ -373,6 +393,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        rangeRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setMeridian(e.target.value);
                         hoursOnRef.current?.focus();
@@ -393,21 +417,27 @@ const Form = ({ goTo, page }) => {
                 placeholder="Hours On" 
                 value={hoursOn} 
                 onChange={e => {
+                    // Update the state safely
                     handleNumericInput(e, setHoursOn, { min: 0, max: 24 });
 
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                    if (val === 24) {
-                        bswRef.current.focus();
-                    } else {
-                        reasonRef.current.focus();
-                    }
+                    // Only auto-focus to BSW if the value is exactly 24
+                    if (parseFloat(e.target.value) === 24) {
+                        bswRef.current?.focus();
+                    } else if (e.target.value.length === 2 && e.target !== 24) {
+                        reasonRef.current?.focus();
                     }
                 }}
                 onKeyDown={e => {
-                    if (e.key === "Enter") {
-                        setHoursOn(e.target.value);
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault();
+                        meridianRef.current?.focus();
+                    }
+                    if (e.key === "Enter" && e.target.value.length !== 0) {
+                        e.preventDefault();
                         reasonRef.current?.focus();
+                    } else if (e.key === "Enter" && e.target.value.length === 0) {
+                        e.preventDefault();
+                        bswRef.current?.focus();
                     }
                 }}
             />
@@ -423,6 +453,10 @@ const Form = ({ goTo, page }) => {
                 }}
                 disabled={hoursDown <= 0} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        hoursOnRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setReason(e.target.value);
                         bswRef.current?.focus();
@@ -450,6 +484,13 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0 && (hoursOn === 24 || !hoursOnRef.current?.value)) {
+                        e.preventDefault(); 
+                        hoursOnRef.current?.focus();
+                    } else if (e.key === "Backspace" && e.target.value.length === 0 && hoursOn !== 24) {
+                        e.preventDefault(); 
+                        reasonRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setBsw(e.target.value);
                         sandPercentRef.current?.focus();
@@ -469,6 +510,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        bswRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setSandPercent(e.target.value);
                         tbgRef.current?.focus();
@@ -493,6 +538,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        sandPercentRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setTbg(e.target.value);
                         csgRef.current?.focus();
@@ -511,6 +560,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        tbgRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setCsg(e.target.value);
                         prodRef.current?.focus();
@@ -537,6 +590,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        csgRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setProd(e.target.value);
                         recycleRef.current?.focus();
@@ -558,6 +615,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        prodRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setRecycle(e.target.value);
                         grossVolRef.current?.focus();
@@ -583,6 +644,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        recycleRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setGrossVol(e.target.value);
                         shipmentBswRef.current?.focus();
@@ -601,6 +666,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        grossVolRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setShipmentBsw(e.target.value);
                         waterLoadsRef.current?.focus();
@@ -621,6 +690,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        shipmentBswRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setWaterLoads(e.target.value);
                         shipmentSandRef.current?.focus();
@@ -639,6 +712,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        waterLoadsRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setShipmentSand(e.target.value);
                         fluidOutRef.current?.focus();
@@ -664,6 +741,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        shipmentSandRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setFluidOut(e.target.value);
                         fluidInRef.current?.focus();
@@ -682,6 +763,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        fluidOutRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setFluidIn(e.target.value);
                         foamLossRef.current?.focus();
@@ -700,6 +785,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        fluidInRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setFoamLoss(e.target.value);
                         propaneRef.current?.focus();
@@ -726,6 +815,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        foamLossRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setPropane(e.target.value);
                         tankTempRef.current?.focus();
@@ -744,6 +837,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        propaneRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setTankTemp(e.target.value);
                         fluidLevelRef.current?.focus();
@@ -762,6 +859,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        tankTempRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setFluidLevel(e.target.value);
                         pumpRef.current?.focus();
@@ -780,6 +881,10 @@ const Form = ({ goTo, page }) => {
                         }
                 }} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        fluidLevelRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setPump(e.target.value);
                         psiRef.current?.focus();
@@ -799,6 +904,10 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        pumpRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setPsi(e.target.value);
                         ticketNumberRef.current?.focus();
@@ -817,12 +926,16 @@ const Form = ({ goTo, page }) => {
                 placeholder="Ticket Number" 
                 value={ticketNumber}
                 onChange={e => {
-                    setTicketNumber(parseFloat(e.target.value))
+                    setTicketNumber(e.target.value === "" ? "" : parseFloat(e.target.value));
                     if (e.target.value.length === 6) {
                         initialsRef.current.focus();
                     }
                 }}
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        psiRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
                         setTicketNumber(e.target.value);
                         initialsRef.current?.focus();
@@ -841,7 +954,12 @@ const Form = ({ goTo, page }) => {
                 }} 
                 maxLength={2} 
                 onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault(); 
+                        ticketNumberRef.current?.focus();
+                    }
                     if (e.key === "Enter") {
+                        e.preventDefault(); 
                         setInitials(e.target.value);
                         commentsRef.current?.focus();
                     }
@@ -854,6 +972,12 @@ const Form = ({ goTo, page }) => {
                 placeholder="Comments" 
                 value={comments} 
                 onChange={e => setComments(e.target.value)} 
+                onKeyDown={e => {
+                    if (e.key === "Backspace" && e.target.value.length === 0) {
+                        e.preventDefault();
+                        initialsRef.current?.focus();
+                    }
+                }}
             />
           </div>
         </fieldset>
