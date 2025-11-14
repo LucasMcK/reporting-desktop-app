@@ -244,6 +244,12 @@ const Form = ({ goTo, page }) => {
                         monthRef.current.focus();
                     }
                 }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setYear(e.target.value);
+                        monthRef.current?.focus();
+                    }
+                }}
              />
             <span>—</span>
             <input
@@ -254,6 +260,12 @@ const Form = ({ goTo, page }) => {
                     setMonth(e.target.value);
                     if (e.target.value.length === 2) {
                         quadrantLSDRef.current.focus();
+                    }
+                }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setMonth(e.target.value);
+                        quadrantLSDRef.current?.focus();
                     }
                 }}
             />
@@ -288,6 +300,12 @@ const Form = ({ goTo, page }) => {
                         sectionRef.current.focus();
                     }
                 }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setQuadrantLSD(e.target.value);
+                        sectionRef.current?.focus();
+                    }
+                }}
             />
             <span>—</span>
             <input 
@@ -298,6 +316,12 @@ const Form = ({ goTo, page }) => {
                     setSection(e.target.value);
                     if (e.target.value.length === 2) {
                         townshipRef.current.focus();
+                    }
+                }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setSection(e.target.value);
+                        townshipRef.current?.focus();
                     }
                 }}
             />
@@ -312,6 +336,12 @@ const Form = ({ goTo, page }) => {
                         rangeRef.current.focus();
                     }
                 }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setTownship(e.target.value);
+                        rangeRef.current?.focus();
+                    }
+                }}
             />
             <span>—</span>
             <input 
@@ -324,6 +354,12 @@ const Form = ({ goTo, page }) => {
                         meridianRef.current.focus();
                     }
                 }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setRange(e.target.value);
+                        meridianRef.current?.focus();
+                    }
+                }}
             />
             <span>—</span>
             <input 
@@ -336,6 +372,12 @@ const Form = ({ goTo, page }) => {
                         hoursOnRef.current.focus();
                     }
                 }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setMeridian(e.target.value);
+                        hoursOnRef.current?.focus();
+                    }
+                }}
             />
           </div>
         </fieldset>
@@ -362,6 +404,12 @@ const Form = ({ goTo, page }) => {
                     }
                     }
                 }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setHoursOn(e.target.value);
+                        reasonRef.current?.focus();
+                    }
+                }}
             />
             <input type="number" placeholder="Hours Down" value={hoursDown} disabled />
           </div>
@@ -374,6 +422,12 @@ const Form = ({ goTo, page }) => {
                     setReason(e.target.value);
                 }}
                 disabled={hoursDown <= 0} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setReason(e.target.value);
+                        bswRef.current?.focus();
+                    }
+                }}
             />
           </div>
         </fieldset>
@@ -395,6 +449,12 @@ const Form = ({ goTo, page }) => {
                         sandPercentRef.current.focus();
                     }
                 }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setBsw(e.target.value);
+                        sandPercentRef.current?.focus();
+                    }
+                }}
             />
             <input
                 ref={sandPercentRef}
@@ -406,6 +466,12 @@ const Form = ({ goTo, page }) => {
                     setSandPercent(parseFloat(e.target.value));
                     if (e.target.value.length === 1) {
                         tbgRef.current.focus();
+                    }
+                }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setSandPercent(e.target.value);
+                        tbgRef.current?.focus();
                     }
                 }}
             />
@@ -426,6 +492,12 @@ const Form = ({ goTo, page }) => {
                         csgRef.current.focus();
                     }
                 }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setTbg(e.target.value);
+                        csgRef.current?.focus();
+                    }
+                }}
             />
             <input
                 ref={csgRef}
@@ -436,6 +508,12 @@ const Form = ({ goTo, page }) => {
                     setCsg(parseFloat(e.target.value));
                     if (e.target.value.length === 2) {
                         prodRef.current.focus();
+                    }
+                }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setCsg(e.target.value);
+                        prodRef.current?.focus();
                     }
                 }}
             />
@@ -458,6 +536,12 @@ const Form = ({ goTo, page }) => {
                         recycleRef.current.focus();
                     }
                 }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setProd(e.target.value);
+                        recycleRef.current?.focus();
+                    }
+                }}
             />
             <input placeholder="Net Oil (m³)" value={netOil} disabled />
             <input placeholder="Net Sand (m³)" value={netSand} disabled />
@@ -472,7 +556,14 @@ const Form = ({ goTo, page }) => {
                     if (e.target.value.length === 1) {
                         grossVolRef.current.focus();
                     }
-                }} />
+                }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setRecycle(e.target.value);
+                        grossVolRef.current?.focus();
+                    }
+                }}
+            />
           </div>
         </fieldset>
 
@@ -490,7 +581,14 @@ const Form = ({ goTo, page }) => {
                     if (e.target.value.length === 2) {
                         shipmentBswRef.current.focus();
                     }
-                }} />
+                }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setGrossVol(e.target.value);
+                        shipmentBswRef.current?.focus();
+                    }
+                }}
+            />
             <input 
                 ref={shipmentBswRef}
                 type="number" 
@@ -501,7 +599,14 @@ const Form = ({ goTo, page }) => {
                     if (e.target.value.length === 1) {
                         waterLoadsRef.current.focus();
                     }
-                }} />
+                }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setShipmentBsw(e.target.value);
+                        waterLoadsRef.current?.focus();
+                    }
+                }}
+            />
             <input placeholder="Net Oil (m³)" value={shipmentOil} disabled />
             <input placeholder="Net Water (m³)" value={shipmentWater} disabled />
             <input 
@@ -515,6 +620,12 @@ const Form = ({ goTo, page }) => {
                         shipmentSandRef.current.focus();
                     }
                 }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setWaterLoads(e.target.value);
+                        shipmentSandRef.current?.focus();
+                    }
+                }}
             />
             <input 
                 ref={shipmentSandRef}
@@ -525,6 +636,12 @@ const Form = ({ goTo, page }) => {
                     setShipmentSand(parseFloat(e.target.value));
                     if (e.target.value.length === 1) {
                         fluidOutRef.current.focus();
+                    }
+                }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setShipmentSand(e.target.value);
+                        fluidOutRef.current?.focus();
                     }
                 }}
             />
@@ -546,6 +663,12 @@ const Form = ({ goTo, page }) => {
                         fluidInRef.current.focus();
                     }
                 }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setFluidOut(e.target.value);
+                        fluidInRef.current?.focus();
+                    }
+                }}
             />
             <input 
                 ref={fluidInRef}
@@ -558,6 +681,12 @@ const Form = ({ goTo, page }) => {
                         foamLossRef.current.focus();
                     }
                 }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setFluidIn(e.target.value);
+                        foamLossRef.current?.focus();
+                    }
+                }}
             />
             <input 
                 ref={foamLossRef}
@@ -568,6 +697,12 @@ const Form = ({ goTo, page }) => {
                     setFoamLoss(parseFloat(e.target.value));
                     if (e.target.value.length === 1) {
                         propaneRef.current.focus();
+                    }
+                }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setFoamLoss(e.target.value);
+                        propaneRef.current?.focus();
                     }
                 }}
             />
@@ -590,6 +725,12 @@ const Form = ({ goTo, page }) => {
                         tankTempRef.current.focus();
                     }
                 }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setPropane(e.target.value);
+                        tankTempRef.current?.focus();
+                    }
+                }}
             />
             <input 
                 ref={tankTempRef}
@@ -600,6 +741,12 @@ const Form = ({ goTo, page }) => {
                     setTankTemp(parseFloat(e.target.value));
                     if (e.target.value.length === 5) {
                         fluidLevelRef.current.focus();
+                    }
+                }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setTankTemp(e.target.value);
+                        fluidLevelRef.current?.focus();
                     }
                 }}
             />
@@ -614,18 +761,30 @@ const Form = ({ goTo, page }) => {
                         pumpRef.current.focus();
                     }
                 }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setFluidLevel(e.target.value);
+                        pumpRef.current?.focus();
+                    }
+                }}
             />
             <input 
-            ref={pumpRef}
-            type="number" 
-            placeholder="Pump (RPM)" 
-            value={pump} 
-            onChange={e => {
-                    setPump(parseFloat(e.target.value))
-                    if (e.target.value.length === 2) {
-                        psiRef.current.focus();
-                    }
+                ref={pumpRef}
+                type="number" 
+                placeholder="Pump (RPM)" 
+                value={pump} 
+                onChange={e => {
+                        setPump(parseFloat(e.target.value))
+                        if (e.target.value.length === 2) {
+                            psiRef.current.focus();
+                        }
                 }} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setPump(e.target.value);
+                        psiRef.current?.focus();
+                    }
+                }}
             />
             <input placeholder="Efficiency" value={efficiency} disabled />
             <input 
@@ -638,7 +797,13 @@ const Form = ({ goTo, page }) => {
                     if (e.target.value.length === 3) {
                         ticketNumberRef.current.focus();
                     }
-                }} 
+                }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setPsi(e.target.value);
+                        ticketNumberRef.current?.focus();
+                    }
+                }}
             />
           </div>
         </fieldset>
@@ -656,7 +821,13 @@ const Form = ({ goTo, page }) => {
                     if (e.target.value.length === 6) {
                         initialsRef.current.focus();
                     }
-                }} 
+                }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setTicketNumber(e.target.value);
+                        initialsRef.current?.focus();
+                    }
+                }}
             />
             <input 
                 ref={initialsRef}
@@ -669,6 +840,12 @@ const Form = ({ goTo, page }) => {
                     }
                 }} 
                 maxLength={2} 
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        setInitials(e.target.value);
+                        commentsRef.current?.focus();
+                    }
+                }}
             />
           </div>
           <div className="form-row">
