@@ -1,0 +1,134 @@
+/* ----------------- Filter ----------------- */
+.filter {
+  width: 350px;
+  height: 100vh;
+  background-color: var(--color-dark);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: width 0.3s ease;
+  position: fixed;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.filter.collapsed {
+  width: 0;
+  padding: 0;
+}
+
+/* Fade out all children when collapsed */
+.filter.collapsed > * {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Logo */
+.filter h3 {
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+/* ----------------- Filter Inputs ----------------- */
+.filter-input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.filter-input .icon-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+}
+
+.filter-input .icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  filter: brightness(0) invert(1);
+}
+
+.filter-input input {
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+/* ----------------- Toggle Button ----------------- */
+.filter-toggle {
+  position: absolute;
+  top: 15px;
+  right: calc(350px + 10px);
+  width: 125px;
+  height: 40px;
+  font-size: 20px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 10px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: right 0.3s ease;
+}
+
+.filter.collapsed ~ .filter-toggle {
+  right: 10px;
+}
+
+.filter-toggle:hover {
+  transform: scale(1.1);
+}
+
+.filter-toggle .icon-btn {
+  width: 20px;
+  height: 20px;
+  margin-left: 8px; /* icon to right of text */
+  filter: brightness(0) invert(1);
+}
+
+/* ----------------- Main Content ----------------- */
+.content {
+  margin-right: var(--filter-width, 220px);
+  padding: 25px 40px;
+  overflow-y: auto;
+  transition: margin-right 0.3s, overflow 0.3s;
+  flex-grow: 1;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.filter.collapsed ~ .content {
+  margin-right: 0;
+  overflow: hidden; /* hides blue scrollbar */
+}
+
+/* ----------------- Headings ----------------- */
+h1 {
+  color: var(--color-text);
+  margin-bottom: 20px;
+}
+
+/* ----------------- General White Text & Icons ----------------- */
+.filter,
+.filter button,
+.filter .icon-label,
+.filter .icon {
+  color: #fff !important;
+}

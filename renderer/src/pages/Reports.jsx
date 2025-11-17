@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
+import Filter from "../components/Filter";
 import downloadIcon from "../assets/icons/download.png";
 import deleteIcon from "../assets/icons/delete.png";
 import "../styles/reports.css";
@@ -7,6 +8,20 @@ import "../styles/reports.css";
 function Reports({ page, goTo }) {
   const [reports, setReports] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [filters, setFilters] = useState({
+    id: "",
+    filename: "",
+    worksheet: "",
+    uploadedBy: "",
+    uploadedAt: "",
+  });
+
+  const updateFilter = (field, value) => {
+    setFilters(prev => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
   // Fetch reports
   const fetchReports = async () => {
@@ -51,19 +66,24 @@ function Reports({ page, goTo }) {
     return sorted;
   }, [reports, sortConfig]);
 
+  const filteredReports = React.useMemo(() => {
+    return sortedReports.filter(report => {
+      return (
+        (filters.id === "" || String(report.id).includes(filters.id)) &&
+        (filters.filename === "" || report.name.toLowerCase().includes(filters.filename.toLowerCase())) &&
+        (filters.worksheet === "" || report.worksheet?.toLowerCase().includes(filters.worksheet.toLowerCase())) &&
+        (filters.uploadedBy === "" || report.uploaded_by.toLowerCase().includes(filters.uploadedBy.toLowerCase())) &&
+        (filters.uploadedAt === "" || report.uploaded_at.includes(filters.uploadedAt))
+      );
+    });
+  }, [sortedReports, filters]);
+
   const handleSort = (key) => {
     setSortConfig((prev) => {
       if (prev.key !== key) return { key, direction: "desc" };
       if (prev.direction === "desc") return { key, direction: "asc" };
       return { key: null, direction: null }; // default
     });
-  };
-
-  const getSortArrow = (key) => {
-    if (sortConfig.key !== key) return "↕";
-    if (sortConfig.direction === "asc") return "↑";
-    if (sortConfig.direction === "desc") return "↓";
-    return "↕";
   };
 
   useEffect(() => {
@@ -99,7 +119,7 @@ function Reports({ page, goTo }) {
               </tr>
             </thead>
             <tbody>
-              {sortedReports.map((report) => (
+              {filteredReports.map((report) => (
                 <tr key={report.id}>
                   <td>{report.id}</td>
                   <td>{report.name}</td>
@@ -120,8 +140,9 @@ function Reports({ page, goTo }) {
               ))}
             </tbody>
           </table>
-        )}
+        )} 
       </div>
+      <Filter filters={filters} updateFilter={updateFilter} />
     </>
   );
 }
