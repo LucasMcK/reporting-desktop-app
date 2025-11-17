@@ -6,11 +6,7 @@ import "../styles/reports.css";
 
 function Reports({ page, goTo }) {
   const [reports, setReports] = useState([]);
-
-  useEffect(() => {
-    fetchReports();
-  }, []);
-
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   // Fetch reports
   const fetchReports = async () => {
@@ -40,6 +36,40 @@ function Reports({ page, goTo }) {
     else alert(`Delete failed: ${result.message}`);
   };
 
+  const sortedReports = React.useMemo(() => {
+    if (!sortConfig.key) return reports; // default order
+
+    const sorted = [...reports].sort((a, b) => {
+      const aVal = a[sortConfig.key];
+      const bVal = b[sortConfig.key];
+
+      if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
+      if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
+      return 0;
+    });
+
+    return sorted;
+  }, [reports, sortConfig]);
+
+  const handleSort = (key) => {
+    setSortConfig((prev) => {
+      if (prev.key !== key) return { key, direction: "desc" };
+      if (prev.direction === "desc") return { key, direction: "asc" };
+      return { key: null, direction: null }; // default
+    });
+  };
+
+  const getSortArrow = (key) => {
+    if (sortConfig.key !== key) return "↕";
+    if (sortConfig.direction === "asc") return "↑";
+    if (sortConfig.direction === "desc") return "↓";
+    return "↕";
+  };
+
+  useEffect(() => {
+    fetchReports();
+  }, []);
+
   return (
     <>
       <Sidebar page={page} goTo={goTo} />
@@ -53,15 +83,23 @@ function Reports({ page, goTo }) {
           <table className="reports-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Filename</th>
-                <th>Uploaded By</th>
-                <th>Uploaded At</th>
+                <th onClick={() => handleSort("id")}>
+                  ID <span className={`sort-arrow ${sortConfig.key === "id" ? sortConfig.direction : ""}`}>↑</span>
+                </th>
+                <th onClick={() => handleSort("name")}>
+                  Filename <span className={`sort-arrow ${sortConfig.key === "name" ? sortConfig.direction : ""}`}>↑</span>
+                </th>
+                <th onClick={() => handleSort("uploaded_by")}>
+                  Uploaded By <span className={`sort-arrow ${sortConfig.key === "uploaded_by" ? sortConfig.direction : ""}`}>↑</span>
+                </th>
+                <th onClick={() => handleSort("uploaded_at")}>
+                  Uploaded At <span className={`sort-arrow ${sortConfig.key === "uploaded_at" ? sortConfig.direction : ""}`}>↑</span>
+                </th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {reports.map((report) => (
+              {sortedReports.map((report) => (
                 <tr key={report.id}>
                   <td>{report.id}</td>
                   <td>{report.name}</td>

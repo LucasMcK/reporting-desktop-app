@@ -84,6 +84,24 @@ body.reports {
   background-color: #fafafa;
 }
 
+.sort-arrow {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 0.8rem;
+  color: gray;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.sort-arrow.asc {
+  transform: rotate(0deg);
+  color: black;
+}
+
+.sort-arrow.desc {
+  transform: rotate(180deg);
+  color: black;
+}
+
 .icon-btn {
   display: flex;
   width: 20px;
@@ -101,7 +119,6 @@ body.reports {
   align-items: center;
   gap: 12px; /* space between buttons */
 }
-
 
 /* Fade in animation */
 .content h1, .content p, .reports-list li {
