@@ -3,6 +3,7 @@ import Button from "../components/Button";
 import "../styles/form.css";
 import "../styles/global.css";
 import Sidebar from "../components/Sidebar";
+import usePersistentState from "../hooks/usePersistentState";
 
 const Form = ({ goTo, page }) => {
   // --- Helper to prevent NaN in inputs ---
@@ -51,58 +52,59 @@ const Form = ({ goTo, page }) => {
 
   const makeAndSize = 15; // DEFAULT VALUE FOR TESTING—CHANGE LATER
   const initialTankGauge = 207; // DEFAULT VALUE FOR TESTING—CHANGE LATER
+
   const currentUser = localStorage.getItem("username");
 
   // Worksheet name info
-  const [quadrantLSD, setQuadrantLSD] = useState("");
-  const [section, setSection] = useState("");
-  const [township, setTownship] = useState("");
-  const [range, setRange] = useState("");
-  const [meridian, setMeridian] = useState("");
+  const [quadrantLSD, setQuadrantLSD] = usePersistentState("quadrantLSD", "", currentUser);
+  const [section, setSection] = usePersistentState("section", "", currentUser);
+  const [township, setTownship] = usePersistentState("township", "", currentUser);
+  const [range, setRange] = usePersistentState("range", "", currentUser);
+  const [meridian, setMeridian] = usePersistentState("meridian", "", currentUser);
 
   // Operational hours info
-  const [hoursOn, setHoursOn] = useState("");
-  const [reason, setReason] = useState("");
+  const [hoursOn, setHoursOn] = usePersistentState("hoursOn", "", currentUser);
+  const [reason, setReason] = usePersistentState("reason", "", currentUser);
 
   // Fluid quality metrics
-  const [bsw, setBsw] = useState("");
-  const [sandPercent, setSandPercent] = useState("");
+  const [bsw, setBsw] = usePersistentState("bsw", "", currentUser);
+  const [sandPercent, setSandPercent] = usePersistentState("sandPercent", "", currentUser);
 
   // Production volumes
-  const [prod, setProd] = useState("");
-  const [recycle, setRecycle] = useState("");
+  const [prod, setProd] = usePersistentState("prod", "", currentUser);
+  const [recycle, setRecycle] = usePersistentState("recycle", "", currentUser);
 
   // Shipments
-  const [grossVol, setGrossVol] = useState("");
-  const [shipmentBsw, setShipmentBsw] = useState("");
-  const [waterLoads, setWaterLoads] = useState("");
-  const [shipmentSand, setShipmentSand] = useState("");
+  const [grossVol, setGrossVol] = usePersistentState("grossVol", "", currentUser);
+  const [shipmentBsw, setShipmentBsw] = usePersistentState("shipmentBsw", "", currentUser);
+  const [waterLoads, setWaterLoads] = usePersistentState("waterLoads", "", currentUser);
+  const [shipmentSand, setShipmentSand] = usePersistentState("shipmentSand", "", currentUser);
 
   // Fluids
-  const [fluidOut, setFluidOut] = useState("");
-  const [fluidIn, setFluidIn] = useState("");
-  const [foamLoss, setFoamLoss] = useState("");
+  const [fluidOut, setFluidOut] = usePersistentState("fluidOut", "", currentUser);
+  const [fluidIn, setFluidIn] = usePersistentState("fluidIn", "", currentUser);
+  const [foamLoss, setFoamLoss] = usePersistentState("foamLoss", "", currentUser);
 
   // Tank & Equipment
-  const [propane, setPropane] = useState("");
-  const [tankTemp, setTankTemp] = useState("");
-  const [fluidLevel, setFluidLevel] = useState("");
-  const [pump, setPump] = useState("");
-  const [psi, setPsi] = useState("");
+  const [propane, setPropane] = usePersistentState("propane", "", currentUser);
+  const [tankTemp, setTankTemp] = usePersistentState("tankTemp", "", currentUser);
+  const [fluidLevel, setFluidLevel] = usePersistentState("fluidLevel", "", currentUser);
+  const [pump, setPump] = usePersistentState("pump", "", currentUser);
+  const [psi, setPsi] = usePersistentState("psi", "", currentUser);
 
   // Pressure
-  const [tbg, setTbg] = useState("");
-  const [csg, setCsg] = useState("");
+  const [tbg, setTbg] = usePersistentState("tbg", "", currentUser);
+  const [csg, setCsg] = usePersistentState("csg", "", currentUser);
 
   // Closing section
-  const [ticketNumber, setTicketNumber] = useState("");
-  const [comments, setComments] = useState("");
-  const [initials, setInitials] = useState("");
+  const [ticketNumber, setTicketNumber] = usePersistentState("ticketNumber", "", currentUser);
+  const [comments, setComments] = usePersistentState("comments", "", currentUser);
+  const [initials, setInitials] = usePersistentState("initials", "", currentUser);
 
   // Workbook meta
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [location, setLocation] = useState("");
+  const [year, setYear] = usePersistentState("year", "", currentUser);
+  const [month, setMonth] = usePersistentState("month", "", currentUser);
+  const [location, setLocation] = usePersistentState("location", "", currentUser);
 
   const configLocation = `${quadrantLSD}-${section}-${township}-${range}-${meridian}`;
 
@@ -199,9 +201,82 @@ const Form = ({ goTo, page }) => {
 
     if (result.success) {
         alert("Form submitted successfully!");
+        resetForm();
     } else {
         alert("Error submitting form: " + result.error);
     }
+  };
+
+  const resetForm = () => {
+    // --- Workbook meta ---
+    setYear("");
+    setMonth("");
+    setLocation("");
+
+    // --- Worksheet name info ---
+    setQuadrantLSD("");
+    setSection("");
+    setTownship("");
+    setRange("");
+    setMeridian("");
+
+    // --- Operational hours ---
+    setHoursOn("");
+    setReason("");
+
+    // --- Fluid quality metrics ---
+    setBsw("");
+    setSandPercent("");
+
+    // --- Production volumes ---
+    setProd("");
+    setRecycle("");
+
+    // --- Shipments ---
+    setGrossVol("");
+    setShipmentBsw("");
+    setWaterLoads("");
+    setShipmentSand("");
+
+    // --- Fluids ---
+    setFluidOut("");
+    setFluidIn("");
+    setFoamLoss("");
+
+    // --- Tank & Equipment ---
+    setPropane("");
+    setTankTemp("");
+    setFluidLevel("");
+    setPump("");
+    setPsi("");
+
+    // --- Pressure ---
+    setTbg("");
+    setCsg("");
+
+    // --- Closing section ---
+    setTicketNumber("");
+    setInitials("");
+    setComments("");
+
+    // --- Clear localStorage for persistent fields if needed ---
+    if (currentUser) {
+        const keys = [
+        "year", "month", "location",
+        "quadrantLSD", "section", "township", "range", "meridian",
+        "hoursOn", "reason",
+        "bsw", "sandPercent",
+        "prod", "recycle",
+        "grossVol", "shipmentBsw", "waterLoads", "shipmentSand",
+        "fluidOut", "fluidIn", "foamLoss",
+        "propane", "tankTemp", "fluidLevel", "pump", "psi",
+        "tbg", "csg",
+        "ticketNumber", "initials", "comments"
+        ];
+        keys.forEach(key => localStorage.removeItem(`${key}_${currentUser}`));
+    }
+
+    goTo("reports");
   };
 
   return (
@@ -256,14 +331,12 @@ const Form = ({ goTo, page }) => {
                     }
                 }}
             />
-            <select
-                value={location}
+           <select
+                value={location ?? ""}
                 onChange={e => setLocation(e.target.value)}
                 className={location === "" ? "placeholder" : ""}
             >
-                <option value="" disabled hidden>
-                    Select Location
-                </option>
+                <option value="">Select Location</option>
                 <option value="Edam">Edam</option>
                 <option value="Rushlake">Rushlake</option>
                 <option value="Greenstreet">Greenstreet</option>
